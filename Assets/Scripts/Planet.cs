@@ -17,7 +17,7 @@ public class Planet : MonoBehaviour
     {
         // Almacenar la posición inicial del planeta.
         initialPosition = transform.position;
-        TextMesh textMesh = Planet.GetComponentInChildren<TextMesh>();
+        TextMesh textMesh = GetComponentInChildren<TextMesh>();
     }
 
     void OnMouseEnter()
@@ -41,7 +41,7 @@ public class Planet : MonoBehaviour
     public void UpdateColorTextMesh()
     {
         // Actualiza color del planeta.
-        if (owner = "player")
+        if (owner == "player")
         {
             troopText.color = Color.blue;
         }
