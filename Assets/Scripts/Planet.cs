@@ -9,35 +9,61 @@ public class Planet : MonoBehaviour
     public int troops; // Variable que almacena el número de tropas que contiene el planeta.
 
     // Agregar otras variables necesarias para la configuración de tu planeta, como el número de tropas, etc.
-    public float elevation = 15.0f; // La cantidad de elevación cuando el ratón pasa por encima.
     private TextMesh troopText; // El TextMesh que muestra el número de tropas en el planeta.
     private Vector3 initialPosition; // La posición inicial del planeta.
+    private Light spotLight; // La luz que se muestra cuando el planeta es seleccionado.
+    private Player player; // Referencia al script Player.
+    private bool clickEnabled = true; // Variable que habilita o deshabilita el clic en el planeta.
 
     void Start()
     {
         // Almacenar la posición inicial del planeta.
         initialPosition = transform.position;
         TextMesh textMesh = GetComponentInChildren<TextMesh>();
+        spotLight = GetComponentInChildren<Light>();
+        if (spotLight != null)
+        {
+            spotLight.enabled = false; // Desactiva el spotlight al inicio.
+        }
+        player = FindObjectOfType<Player>();
     }
 
     void OnMouseEnter()
     {
         // Cuando el ratón entra en el área del planeta, eleva el planeta.
-        transform.position = new Vector3(initialPosition.x, initialPosition.y, initialPosition.z - elevation);
+        if (spotLight != null)
+        {
+            spotLight.enabled = true; // Activa el halo.
+        }
     }
 
     void OnMouseExit()
     {
         // Cuando el ratón sale del área del planeta, restaura la posición inicial.
-        transform.position = initialPosition;
+        if (spotLight != null)
+        {
+            spotLight.enabled = false; // Desactiva el halo.
+        }
     }
 
     void OnMouseDown()
     {
+        if (clickEnabled)
+        {
+            player.DetectClickedPlanet();
+            StartCoroutine(EnableClickAfterDelay()); // Habilita los clics después de un cierto tiempo.
+        }
         // Cuando el jugador hace clic en el planeta, se llama a la función de conquista del jugador.
-        transform.position = new Vector3(initialPosition.x, initialPosition.y, initialPosition.z - elevation);
-        GameObject.Find("player").GetComponent<Player>().ConquerPlanet(this, this);
+        //transform.position = new Vector3(initialPosition.x, initialPosition.y, initialPosition.z - elevation);
+       
     }
+    IEnumerator EnableClickAfterDelay()
+    {
+        clickEnabled = false; // Deshabilita los clics temporalmente.
+        yield return new WaitForSeconds(1.0f); // Ajusta el tiempo según tus necesidades.
+        clickEnabled = true; // Habilita los clics después del tiempo especificado.
+    }
+
     public void UpdateColorTextMesh()
     {
         // Actualiza color del planeta.

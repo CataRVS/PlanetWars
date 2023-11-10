@@ -37,7 +37,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    void DetectClickedPlanet()
+    public void DetectClickedPlanet()
     {
         // Raycast desde la posición del clic del mouse.
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -54,11 +54,13 @@ public class Player : MonoBehaviour
                 if (PlanetOrig == null)
                 {
                     PlanetOrig = clickedPlanet;
+                    Debug.Log("Planeta origen seleccionado");
                 }
                 // Si es el segundo clic, selecciona el planeta como destino.
                 else if (PlanetDest == null)
                 {
                     PlanetDest = clickedPlanet;
+                    Debug.Log("Planeta destino seleccionado");
                 }
             }
             else
@@ -66,7 +68,6 @@ public class Player : MonoBehaviour
                 // Si el jugador hace clic en un área vacía, limpia la selección.
                 CleanSection();
             }
-
         }
     }
 
@@ -74,6 +75,7 @@ public class Player : MonoBehaviour
     {
         int troopsRemainingOrigin = 0;
         int troopsRemainingDestination = 0;
+        Debug.Log("Conquistando planeta");
 
         if (PlanetOrig.troops >= sendTroops)
         {
