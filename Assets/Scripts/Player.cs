@@ -4,103 +4,107 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private Planet PlanetOrig = null; // El planeta desde el que se envían las tropas.
-    private Planet PlanetDest = null; // El planeta al que se van a transferir las tropas.
+    private Planet PlanetOrig = null; // Planet from which the troops are sent
+    private Planet PlanetDest = null; // Planet to which the troops are sent
 
-    public int sendTroops = 5; // Cantidad predeterminada de tropas a transferir con un click.
+    [SerializeField] int sendTroops = 5; // Amout of troops sent by default
 
     void Update()
     {
-        // Detecta el clic del jugador en un planeta.
+        // We detect the mouse click
         if (Input.GetMouseButtonDown(0))
         {
             DetectClickedPlanet();
         }
 
-        // Realiza la conquista del planeta si se han seleccionado el origen y el destino.
+        // If have already selected both planets, we conquer or defend depending on the destination planet.
         if (PlanetOrig != null && PlanetDest != null)
         {
-            if (PlanetOrig.owner == "player" && PlanetDest.owner == "AI")
+            if (PlanetDest.owner == "AI")
             {
                 ConquerPlanet(PlanetOrig, PlanetDest);
-                CleanSection();
             }
-            else if (PlanetOrig.owner == "player" && PlanetDest.owner == "player")
-            { 
-                ReforceDefensePlanet(PlanetOrig, PlanetDest);
-                CleanSection();
-            }
-            else
+            else if (PlanetDest.owner == "player")
             {
-                CleanSection();
+                if (PlanetOrig != PlanetDest)
+                {
+                    ReforceDefensePlanet(PlanetOrig, PlanetDest);
+                }
             }
+            CleanSection();
         }
     }
 
     public void DetectClickedPlanet()
     {
-        // Raycast desde la posición del clic del mouse.
+        // Raycast to the mouse position
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            // Obtén el componente Planeta del objeto clickeado.
+            // We get the planet clicked if it exists
             Planet clickedPlanet = hit.collider.GetComponent<Planet>();
 
             if (clickedPlanet != null)
             {
-                // Si es el primer clic, selecciona el planeta como origen.
-                if (PlanetOrig == null)
+                // If it's the first click, it's the origin so it must be a player's planet.
+                if (PlanetOrig == null && clickedPlanet.owner != "AI")
                 {
                     PlanetOrig = clickedPlanet;
                     Debug.Log("Planeta origen seleccionado");
                 }
-                // Si es el segundo clic, selecciona el planeta como destino.
-                else if (PlanetDest == null)
+                // If it's the second click, it's the destination
+                else if (PlanetDest == null && PlanetOrig != null)
                 {
                     PlanetDest = clickedPlanet;
                     Debug.Log("Planeta destino seleccionado");
                 }
             }
+            // If the player doesn't hit the planet, we clean the selection
             else
             {
-                // Si el jugador hace clic en un área vacía, limpia la selección.
                 CleanSection();
             }
+        }
+        // If the player doesn't hit the planet, we clean the selection
+        else
+        {
+            CleanSection();
         }
     }
 
     public void ConquerPlanet(Planet PlanetOrig, Planet PlanetDest)
     {
-        int troopsRemainingOrigin = 0;
-        int troopsRemainingDestination = 0;
         Debug.Log("Conquistando planeta");
 
+        // If the origin planet hasn't got enough troops, we don't try to conquer
         if (PlanetOrig.troops >= sendTroops)
         {
-            // Calcula las tropas restantes después de la conquista.
-            troopsRemainingOrigin = PlanetOrig.troops - sendTroops;
+            // We calculate the number of troops left in each planet
+            int troopsRemainingOrigin = PlanetOrig.troops - sendTroops;
+            int troopsRemainingDestination = 0;
 
-            if (PlanetDest.troops < sendTroops)  // si el planeta destino tiene menos tropas que las que se envían, el planeta se conquista.
+            // If the troops sent are greater than the ones in the planet, we conquer the planet
+            if (PlanetDest.troops < sendTroops)
             {
-                PlanetDest.owner = "player";  // conquistamos
+                PlanetDest.owner = "player";
                 troopsRemainingDestination = sendTroops - PlanetDest.troops;
     
             }
-            else  // el planeta destino tiene más tropas de las que vamos a enviar, no conquistamos
+            // If there aren't enough troops, we don't conquer
+            else
             {
                 troopsRemainingDestination = PlanetDest.troops - sendTroops;
             }
 
-            // Actualiza el color del TextMesh del planeta destino según las condiciones.
+            // Update the color of the text
             PlanetDest.UpdateColorTextMesh();
 
-            // Actualiza la cantidad de tropas en el planeta origen y destino.
+            // Update the number of troops in origin and in the destination
             PlanetOrig.troops = troopsRemainingOrigin;
             PlanetDest.troops = troopsRemainingDestination;
 
-            // Actualiza el TextMesh de los planetas para mostrar las cantidades actualizadas.
+            // Update the text of the planets indicating the number of troops
             PlanetOrig.UpdateTextMesh();
             PlanetDest.UpdateTextMesh();
         }
@@ -108,33 +112,31 @@ public class Player : MonoBehaviour
 
     public void ReforceDefensePlanet(Planet PlanetOrig, Planet PlanetDest)
     {
-        int troopsRemainingOrigin = 0;
-        int troopsRemainingDestination = 0;
-
+        // If the origin planet hasn't got enough troops or the destination is already full, we don't defend
         if (PlanetOrig.troops >= sendTroops && PlanetDest.troops < PlanetDest.capacity)
         {
-            // Calcula las tropas restantes después de la conquista.
-            
+            // We calculate the number of troops left in each planet
+            int troopsRemainingOrigin = 0;
+            int troopsRemainingDestination = 0;
 
-            if (PlanetDest.troops + sendTroops <= PlanetDest.capacity)  // el planeta destino tiene más tropas de las que vamos a enviar, no conquistamos
+            // If we don't reach the capacity with the actual number of troops sent, we send them all
+            if (PlanetDest.troops + sendTroops <= PlanetDest.capacity)
             {
                 troopsRemainingDestination = PlanetDest.troops + sendTroops;
                 troopsRemainingOrigin = PlanetOrig.troops - sendTroops;
             }
+            // If we reach the capacity with the actual number of troops sent, we only send the ones needed to reach the capacity
             else
             {
                 troopsRemainingDestination = PlanetDest.capacity;
                 troopsRemainingOrigin = PlanetOrig.troops + (PlanetDest.troops - PlanetDest.capacity);
             }
 
-            // Actualiza el color del TextMesh del planeta destino según las condiciones.
-            PlanetDest.UpdateColorTextMesh();
-
-            // Actualiza la cantidad de tropas en el planeta origen y destino.
+            // Update the number of troops in origin and in the destination
             PlanetOrig.troops = troopsRemainingOrigin;
             PlanetDest.troops = troopsRemainingDestination;
 
-            // Actualiza el TextMesh de los planetas para mostrar las cantidades actualizadas.
+            // Update the text of the planets indicating the number of troops
             PlanetOrig.UpdateTextMesh();
             PlanetDest.UpdateTextMesh();
         }
@@ -142,25 +144,9 @@ public class Player : MonoBehaviour
 
     void CleanSection()
     {
-        // Limpia la selección de origen y destino para el siguiente movimiento.
+        // We clean the selection of planets selected
         PlanetOrig = null;
         PlanetDest = null;
-    }
-    
-    void UpdateColorTextMesh(Planet planet, bool showBlue)
-    {
-        TextMesh textMesh = planet.GetComponentInChildren<TextMesh>();
-        if (textMesh != null)
-        {
-            if (showBlue)
-            {
-                textMesh.color = Color.blue;
-            }
-            else
-            {
-                textMesh.color = Color.red;
-            }
-        }
     }
 }
 

@@ -1,72 +1,64 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Planet : MonoBehaviour
 {
-    public string owner; // Variable que almacena al propietario del planeta (player o AI).
-    public int capacity; // Variable que almacena la capacidad del planeta (número de tropas que puede contener).
-    public int troops; // Variable que almacena el número de tropas que contiene el planeta.
+    [SerializeField] int initialTroops = 12;
+    [SerializeField] int initialCapacity = 25;
 
-    // Agregar otras variables necesarias para la configuración de tu planeta, como el número de tropas, etc.
-    private TextMesh troopText; // El TextMesh que muestra el número de tropas en el planeta.
-    private Vector3 initialPosition; // La posición inicial del planeta.
-    private Light spotLight; // La luz que se muestra cuando el planeta es seleccionado.
-    private Player player; // Referencia al script Player.
-    private bool clickEnabled = true; // Variable que habilita o deshabilita el clic en el planeta.
+    public string owner = ""; // Saves the owner of the planet (player o AI).
+    public int capacity; // Saves the capacity of the planet
+    public int troops; // Saves the number of troops in the planet
+
+    private TextMeshPro troopText; // Shows the number of troops and the capacity of the planet
+    private Light spotLight; // The light shown when the planet is selected
 
     void Start()
     {
-        // Almacenar la posición inicial del planeta.
-        initialPosition = transform.position;
-        TextMesh textMesh = GetComponentInChildren<TextMesh>();
+        // We look for the GameObjects corresponding to each variable
+        troopText = GetComponentInChildren<TextMeshPro>();
         spotLight = GetComponentInChildren<Light>();
-        if (spotLight != null)
-        {
-            spotLight.enabled = false; // Desactiva el spotlight al inicio.
-        }
-        player = FindObjectOfType<Player>();
     }
+    void Awake()
+    {
+        // We look for the GameObjects corresponding to each variable
+        troopText = GetComponentInChildren<TextMeshPro>();
+        spotLight = GetComponentInChildren<Light>();
+        // We nable the spotlight at the beginig of each game.
+        spotLight.enabled = false;
 
+        troops = initialTroops;
+        capacity = initialCapacity;
+        UpdateTextMesh();
+    }
     void OnMouseEnter()
     {
-        // Cuando el ratón entra en el área del planeta, eleva el planeta.
+        // When the mouse enters the planet, it glows
         if (spotLight != null)
         {
-            spotLight.enabled = true; // Activa el halo.
+            spotLight.enabled = true;
         }
     }
 
     void OnMouseExit()
     {
-        // Cuando el ratón sale del área del planeta, restaura la posición inicial.
+        // When the mouse exits the planet, it stops glowing
         if (spotLight != null)
         {
-            spotLight.enabled = false; // Desactiva el halo.
+            spotLight.enabled = false;
         }
     }
 
     void OnMouseDown()
     {
-        if (clickEnabled)
-        {
-            player.DetectClickedPlanet();
-            StartCoroutine(EnableClickAfterDelay()); // Habilita los clics después de un cierto tiempo.
-        }
-        // Cuando el jugador hace clic en el planeta, se llama a la función de conquista del jugador.
-        //transform.position = new Vector3(initialPosition.x, initialPosition.y, initialPosition.z - elevation);
-       
-    }
-    IEnumerator EnableClickAfterDelay()
-    {
-        clickEnabled = false; // Deshabilita los clics temporalmente.
-        yield return new WaitForSeconds(1.0f); // Ajusta el tiempo según tus necesidades.
-        clickEnabled = true; // Habilita los clics después del tiempo especificado.
+        // We don't do anything for the moment
     }
 
     public void UpdateColorTextMesh()
     {
-        // Actualiza color del planeta.
+        // The planet is blue if the owner is the player, otherwise it's red.
         if (owner == "player")
         {
             troopText.color = Color.blue;

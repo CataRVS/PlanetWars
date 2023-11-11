@@ -1,24 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
+using System.Linq;
 
 public class PlanetInitializer : MonoBehaviour
 {
-    List<Planet> planetList = new List<Planet>();  // Una lista de planetas en tu escena.
+    private List<Planet> planetList = new List<Planet>();  // Una lista de planetas en tu escena.
 
     void Awake()
     {
-        
-        Planet[] planetsArray = GameObject.FindObjectsOfType<Planet>();
+        // We look for the planets on the scene and we order by position them to assign an owner to each one
+        Planet[] planetsArray = FindObjectsOfType<Planet>();
+        planetList.AddRange(planetsArray.OrderBy(planet => planet.transform.position.x).ToArray());
 
-        // Agrega los planetas encontrados a la lista.
-        planetList.AddRange(planetsArray);
-
-        // Puedes imprimir la cantidad de planetas encontrados para verificar.
-        Debug.Log("Número de planetas en la lista: " + planetList.Count);
-
-        // Ahora, planetsList contiene todos los planetas de la escena.
         int totalPlanets = planetList.Count;
         int half = totalPlanets / 2;
 
@@ -26,26 +20,15 @@ public class PlanetInitializer : MonoBehaviour
         {
             if (i < half)
             {
-                // Asigna el planeta al jugador (cambia "Planeta" por el nombre del componente o script que almacena el dueño del planeta).
-                planetList[i].owner = "AI";
-                // Asignar el color del text mesh azul 
-                ChangeTextMeshColor(planetList[i], Color.red);
+                // The planets on the left will be assigned to the player
+                planetList[i].owner = "player";
             }
             else
             {
-                // Asigna el planeta a la IA.
-                planetList[i].owner = "player";
-                // Asignar el color del text mesh rojo
-                ChangeTextMeshColor(planetList[i], Color.blue);
+                // The planets on the left will be assigned to the AI
+                planetList[i].owner = "AI";
             }
-        }
-    }
-    void ChangeTextMeshColor(Planet planet, Color color)
-    {
-        TextMeshPro planetText = planet.GetComponentInChildren<TextMeshPro>();
-        if (planetText != null)
-        {
-            planetText.color = color;
+            planetList[i].UpdateColorTextMesh();
         }
     }
 }

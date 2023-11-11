@@ -216,8 +216,8 @@ Light:
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
-  m_Color: {r: 0.8301887, g: 0.8301887, b: 0.8301887, a: 1}
-  m_Intensity: 0.5
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 0.2
   m_Range: 10
   m_SpotAngle: 1
   m_InnerSpotAngle: 1
@@ -281,7 +281,7 @@ GameObject:
   - component: {fileID: 1609576424434033478}
   - component: {fileID: 1159128366570228659}
   m_Layer: 0
-  m_Name: Planeta
+  m_Name: Planet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -373,7 +373,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 2
+  m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1159128366570228659
 MonoBehaviour:
@@ -387,6 +387,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bce70d28943c4deaac8152d8d775634, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initialTroops: 17
+  initialCapacity: 25
   owner: 
   capacity: 0
   troops: 0
