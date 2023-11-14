@@ -4,8 +4,9 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - playerShipPrefab: {fileID: 1158561113003540375, guid: 4ffdfe5ff9bb0584eb383e328678160d, type: 3}
-  - enemyShipPrefab: {fileID: 8310193472532158436, guid: 3b018267e4a510449aff9d9b076f71fe, type: 3}
+  - SpawnerPosition: {instanceID: 0}
+  - playerShipPrefab: {fileID: 8310193472532158436, guid: 3b018267e4a510449aff9d9b076f71fe, type: 3}
+  - enemyShipPrefab: {fileID: 1158561113003540375, guid: 4ffdfe5ff9bb0584eb383e328678160d, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

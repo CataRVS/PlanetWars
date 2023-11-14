@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ShipSpawner : MonoBehaviour
 {
-    // Ajusta la velocidad y otros parámetros según sea necesario.
+    // Set the standart speed of the spaceship
     public float shipSpeed = 5.0f;
     [SerializeField] Transform SpawnerPosition;
     [SerializeField] GameObject playerShipPrefab;
@@ -21,13 +21,13 @@ public class ShipSpawner : MonoBehaviour
         Instantiate(playerShipPrefab, SpawnerPosition.position, Quaternion.identity);
     }
 
-    // Función para generar y mover una nave desde el origen al destino.
+    // Generates and moves the the spaceship from an origin to a destination
     public void SpawnAndMoveShip(GameObject shipPrefab, Vector3 origin, Vector3 destination)
     {
         StartCoroutine(MoveShip(Instantiate(shipPrefab, origin, Quaternion.identity), destination));
     }
 
-    // Rutina para mover gradualmente la nave hacia el destino.
+    // Routine to move gradually the spaceship from the origin to the destination
     IEnumerator MoveShip(GameObject ship, Vector3 destination)
     {
         while (Vector3.Distance(ship.transform.position, destination) > 0.1f)

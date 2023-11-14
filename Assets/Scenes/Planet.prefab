@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1910657332750528238}
   m_Layer: 0
-  m_Name: ShipSpawn
+  m_Name: ShipSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -311,7 +311,7 @@ GameObject:
   - component: {fileID: 7179199716325760599}
   - component: {fileID: 1609576424434033478}
   - component: {fileID: 1159128366570228659}
-  - component: {fileID: 771825358354473873}
+  - component: {fileID: 4151966506048273828}
   m_Layer: 0
   m_Name: Planet
   m_TagString: Untagged
@@ -425,7 +425,7 @@ MonoBehaviour:
   owner: 
   capacity: 0
   troops: 0
---- !u!114 &771825358354473873
+--- !u!114 &4151966506048273828
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -439,5 +439,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shipSpeed: 5
   SpawnerPosition: {fileID: 1910657332750528238}
-  playerShipPrefab: {fileID: 6181478979288002415, guid: c7c134f4bd61040bca69a547677e12a1, type: 3}
-  enemyShipPrefab: {fileID: 8310193472532158436, guid: 3b018267e4a510449aff9d9b076f71fe, type: 3}
+  playerShipPrefab: {fileID: 8310193472532158436, guid: 3b018267e4a510449aff9d9b076f71fe, type: 3}
+  enemyShipPrefab: {fileID: 1158561113003540375, guid: 4ffdfe5ff9bb0584eb383e328678160d, type: 3}
