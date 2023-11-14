@@ -28,7 +28,7 @@ public class Player : MonoBehaviour
             {
                 if (PlanetOrig != PlanetDest)
                 {
-                    ReforceDefensePlanet(PlanetOrig, PlanetDest);
+                    ReinforceDefensePlanet(PlanetOrig, PlanetDest);
                 }
             }
             CleanSection();
@@ -110,7 +110,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void ReforceDefensePlanet(Planet PlanetOrig, Planet PlanetDest)
+    public void ReinforceDefensePlanet(Planet PlanetOrig, Planet PlanetDest)
     {
         // If the origin planet hasn't got enough troops or the destination is already full, we don't defend
         if (PlanetOrig.troops >= sendTroops && PlanetDest.troops < PlanetDest.capacity)

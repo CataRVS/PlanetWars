@@ -4,10 +4,25 @@ using UnityEngine;
 public class ShipSpawner : MonoBehaviour
 {
     // Set the standart speed of the spaceship
-    public float shipSpeed = 5.0f;
+    public float shipSpeed = 1.0f;
+    // private Transform SpawnerPosition;
     [SerializeField] Transform SpawnerPosition;
     [SerializeField] GameObject playerShipPrefab;
     [SerializeField] GameObject enemyShipPrefab;
+    Planet planet;
+
+    void Start()
+    {
+        planet = GetComponent<Planet>();
+        // if (planet != null)
+        // {
+        //     SpawnerPosition = planet.shipSpawner.transform;
+        // }
+        // else
+        // {
+        //     Debug.Log("No hay planeta");
+        // }
+    }
 
     private void Update()
     {
@@ -18,24 +33,40 @@ public class ShipSpawner : MonoBehaviour
     }
     private void SpawnShip()
     {
-        Instantiate(playerShipPrefab, SpawnerPosition.position, Quaternion.identity);
+        GameObject spaceShip = null;
+        if (planet.owner == "player")
+        {
+            spaceShip = Instantiate(playerShipPrefab, SpawnerPosition.position, Quaternion.identity);
+            spaceShip.transform.rotation = Quaternion.Euler(-20f, 90f, -25f);
+        }
+        else
+        {
+            spaceShip = Instantiate(enemyShipPrefab, SpawnerPosition.position, Quaternion.identity);
+            spaceShip.transform.rotation = Quaternion.Euler(20f, -90f, 25f);
+        }
+        StartCoroutine(MoveShipParabolically(spaceShip, Vector3.zero));
     }
 
     // Generates and moves the the spaceship from an origin to a destination
-    public void SpawnAndMoveShip(GameObject shipPrefab, Vector3 origin, Vector3 destination)
+    private IEnumerator MoveShipParabolically(GameObject spaceShip, Vector3 destination)
     {
-        StartCoroutine(MoveShip(Instantiate(shipPrefab, origin, Quaternion.identity), destination));
-    }
+        float coveredPath = 0f;
+        Vector3 initialPosition = SpawnerPosition.transform.position;
+        Debug.Log(initialPosition);
 
-    // Routine to move gradually the spaceship from the origin to the destination
-    IEnumerator MoveShip(GameObject ship, Vector3 destination)
-    {
-        while (Vector3.Distance(ship.transform.position, destination) > 0.1f)
+        while (coveredPath < 1f)
         {
-            ship.transform.position = Vector3.MoveTowards(ship.transform.position, destination, shipSpeed * Time.deltaTime);
+            coveredPath += Time.deltaTime * shipSpeed;
+
+            // Calcula la posición intermedia usando una función cuadrática (parabólica).
+            Vector3 newPosition = Vector3.Lerp(initialPosition, destination, coveredPath);
+            newPosition.y = Mathf.Sin(coveredPath * Mathf.PI) * 2f;
+
+            // Aplica la nueva posición a la nave.
+            spaceShip.transform.position = newPosition;
+
             yield return null;
         }
-        Destroy(ship);
+        spaceShip.transform.position = destination;
     }
 }
-

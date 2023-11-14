@@ -7,6 +7,7 @@ public class Planet : MonoBehaviour
 {
     [SerializeField] int initialTroops = 12;
     [SerializeField] int initialCapacity = 25;
+    [SerializeField] int sendTroops = 5; // Amout of troops sent by default
 
     public string owner = ""; // Saves the owner of the planet (player o AI).
     public int capacity; // Saves the capacity of the planet
@@ -58,6 +59,73 @@ public class Planet : MonoBehaviour
         // We don't do anything for the moment
     }
 
+    void OnCollisionEnter(Collision collision)
+    {
+        GameObject spaceShip = collision.gameObject;
+        if (owner == "player")
+        {
+            if (spaceShip.CompareTag("AI"))
+            {
+                if (troops < sendTroops)
+                {
+                owner = "AI";
+                troops = sendTroops - troops;
+                UpdateColorTextMesh();
+                }
+                // If there aren't enough troops, we don't conquer
+                else
+                {
+                    troops = troops - sendTroops;
+                }
+            }
+            else if (spaceShip.CompareTag("Player"))
+            {
+                // If we don't reach the capacity with the actual number of troops sent, we send them all
+                if (troops + sendTroops <= capacity)
+                {
+                    troops = troops + sendTroops;
+                }
+                // If we reach the capacity with the actual number of troops sent, we only send the ones needed to reach the capacity
+                else
+                {
+                    troops = capacity;
+                }
+            }
+        }
+        else
+        {
+            if (spaceShip.CompareTag("AI"))
+            {
+                // If we don't reach the capacity with the actual number of troops sent, we send them all
+                if (troops + sendTroops <= capacity)
+                {
+                    troops = troops + sendTroops;
+                }
+                // If we reach the capacity with the actual number of troops sent, we only send the ones needed to reach the capacity
+                else
+                {
+                    troops = capacity;
+                }
+            }
+            else if (spaceShip.CompareTag("Player"))
+            {
+                if (troops < sendTroops)
+                {
+                owner = "player";
+                troops = sendTroops - troops;
+                UpdateColorTextMesh();
+                }
+                // If there aren't enough troops, we don't conquer
+                else
+                {
+                    troops = troops - sendTroops;
+                }
+            }
+        }
+        Destroy(spaceShip);
+        UpdateTextMesh();
+    }
+    
     public void UpdateColorTextMesh()
     {
         // The planet is blue if the owner is the player, otherwise it's red.
@@ -70,6 +138,7 @@ public class Planet : MonoBehaviour
             troopText.color = Color.red;
         }
     }
+
     public void UpdateTextMesh()
     {
         if (troopText != null)
