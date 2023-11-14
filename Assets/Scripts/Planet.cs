@@ -14,12 +14,14 @@ public class Planet : MonoBehaviour
 
     private TextMeshPro troopText; // Shows the number of troops and the capacity of the planet
     private Light spotLight; // The light shown when the planet is selected
+    private ShipSpawner shipSpawner; // Referencia al spawner.
 
     void Start()
     {
         // We look for the GameObjects corresponding to each variable
         troopText = GetComponentInChildren<TextMeshPro>();
         spotLight = GetComponentInChildren<Light>();
+        shipSpawner = GameObject.FindObjectOfType<ShipSpawner>();
     }
     void Awake()
     {

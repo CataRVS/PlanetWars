@@ -1413,7 +1413,7 @@ GameObject:
   - component: {fileID: 5744261982802133755}
   - component: {fileID: 7517423255454692913}
   m_Layer: 0
-  m_Name: StarSparrow2
+  m_Name: EnemyShip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
