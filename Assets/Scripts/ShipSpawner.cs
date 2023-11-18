@@ -3,70 +3,64 @@ using UnityEngine;
 
 public class ShipSpawner : MonoBehaviour
 {
-    // Set the standart speed of the spaceship
-    public float shipSpeed = 1.0f;
     // private Transform SpawnerPosition;
-    [SerializeField] Transform SpawnerPosition;
     [SerializeField] GameObject playerShipPrefab;
     [SerializeField] GameObject enemyShipPrefab;
-    Planet planet;
+    private Transform spawner;
+    private string owner;
 
     void Start()
     {
-        planet = GetComponent<Planet>();
-        // if (planet != null)
-        // {
-        //     SpawnerPosition = planet.shipSpawner.transform;
-        // }
-        // else
-        // {
-        //     Debug.Log("No hay planeta");
-        // }
+        Planet planet = GetComponent<Planet>();
+        owner = planet.owner;
+        spawner = planet.transform.Find("ShipSpawner");
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            SpawnShip();
+            SpawnShip(new Vector3(0, 0, 9.99f));
         }
     }
-    private void SpawnShip()
+    private void SpawnShip(Vector3 destination)
     {
-        GameObject spaceShip = null;
-        if (planet.owner == "player")
+        GameObject spaceshipRaw = null;
+        if (owner == "player")
         {
-            spaceShip = Instantiate(playerShipPrefab, SpawnerPosition.position, Quaternion.identity);
-            spaceShip.transform.rotation = Quaternion.Euler(-20f, 90f, -25f);
+            spaceshipRaw = Instantiate(playerShipPrefab, spawner.position, Quaternion.identity);
+            //spaceshipRaw.transform.rotation = Quaternion.Euler(-20f, 90f, -25f);
         }
         else
         {
-            spaceShip = Instantiate(enemyShipPrefab, SpawnerPosition.position, Quaternion.identity);
-            spaceShip.transform.rotation = Quaternion.Euler(20f, -90f, 25f);
+            spaceshipRaw = Instantiate(enemyShipPrefab, spawner.position, Quaternion.identity);
+            //spaceshipRaw.transform.rotation = Quaternion.Euler(20f, -90f, 25f);
         }
-        StartCoroutine(MoveShipParabolically(spaceShip, Vector3.zero));
+        spaceshipRaw.transform.rotation = Quaternion.Euler(CalculateRotation(destination));
+        Spaceship spaceship = spaceshipRaw.GetComponent<Spaceship>();
+        spaceship.destination = destination;
     }
 
-    // Generates and moves the the spaceship from an origin to a destination
-    private IEnumerator MoveShipParabolically(GameObject spaceShip, Vector3 destination)
+    private Vector3 CalculateRotation(Vector3 destination)
     {
-        float coveredPath = 0f;
-        Vector3 initialPosition = SpawnerPosition.transform.position;
-        Debug.Log(initialPosition);
-
-        while (coveredPath < 1f)
+        Vector3 origin = spawner.position;
+        float xRotation;
+        float yRotation;
+        float zRotation;
+        float xRotationRad = Mathf.Atan2((destination.y - origin.y), (destination.x - origin.x));
+        if (origin.x <= destination.x)
         {
-            coveredPath += Time.deltaTime * shipSpeed;
-
-            // Calcula la posición intermedia usando una función cuadrática (parabólica).
-            Vector3 newPosition = Vector3.Lerp(initialPosition, destination, coveredPath);
-            newPosition.y = Mathf.Sin(coveredPath * Mathf.PI) * 2f;
-
-            // Aplica la nueva posición a la nave.
-            spaceShip.transform.position = newPosition;
-
-            yield return null;
+            xRotation = -xRotationRad * Mathf.Rad2Deg;
+            yRotation = 90.0f;
+            zRotation = -25.0f;
         }
-        spaceShip.transform.position = destination;
+        else
+        {
+            xRotation = 180 + xRotationRad * Mathf.Rad2Deg;
+            yRotation = -90.0f;
+            zRotation = 25.0f;
+        }
+        Vector3 Rotation = new(xRotation, yRotation, zRotation);
+        return Rotation;
     }
 }

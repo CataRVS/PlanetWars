@@ -22,13 +22,21 @@ public class Player : MonoBehaviour
         {
             if (PlanetDest.owner == "AI")
             {
-                ConquerPlanet(PlanetOrig, PlanetDest);
+                //ConquerPlanet(PlanetOrig, PlanetDest);
+                if (PlanetOrig.troops >= sendTroops)
+                {
+                    PlanetOrig.SendSpaceship(PlanetDest.transform.position);
+                }
             }
             else if (PlanetDest.owner == "player")
             {
                 if (PlanetOrig != PlanetDest)
                 {
-                    ReinforceDefensePlanet(PlanetOrig, PlanetDest);
+                    if (PlanetOrig.troops >= sendTroops)
+                    {
+                        PlanetOrig.SendSpaceship(PlanetDest.transform.position);
+                    }
+                    //ReinforceDefensePlanet(PlanetOrig, PlanetDest);
                 }
             }
             CleanSection();
@@ -51,13 +59,11 @@ public class Player : MonoBehaviour
                 if (PlanetOrig == null && clickedPlanet.owner != "AI")
                 {
                     PlanetOrig = clickedPlanet;
-                    Debug.Log("Planeta origen seleccionado");
                 }
                 // If it's the second click, it's the destination
                 else if (PlanetDest == null && PlanetOrig != null)
                 {
                     PlanetDest = clickedPlanet;
-                    Debug.Log("Planeta destino seleccionado");
                 }
             }
             // If the player doesn't hit the planet, we clean the selection
@@ -89,7 +95,7 @@ public class Player : MonoBehaviour
             {
                 PlanetDest.owner = "player";
                 troopsRemainingDestination = sendTroops - PlanetDest.troops;
-    
+
             }
             // If there aren't enough troops, we don't conquer
             else
