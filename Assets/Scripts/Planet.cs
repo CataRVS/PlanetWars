@@ -12,6 +12,7 @@ public class Planet : MonoBehaviour
     [SerializeField] int initialTroops = 12;
     [SerializeField] int initialCapacity = 25;
     [SerializeField] int sendTroops = 5; // Amout of troops sent by default
+    [SerializeField] float regenerationTime = 2.0f; // Time needed to add one troop
 
     public string owner = ""; // Saves the owner of the planet (player o AI).
     public int capacity; // Saves the capacity of the planet
@@ -39,7 +40,14 @@ public class Planet : MonoBehaviour
         troops = initialTroops;
         capacity = initialCapacity;
         UpdateTextMesh();
+        StartCoroutine(RegenerateTroops());
     }
+
+    void Update()
+    {
+        // Update
+    }
+
     void OnMouseEnter()
     {
         // When the mouse enters the planet, it glows
@@ -56,11 +64,6 @@ public class Planet : MonoBehaviour
         {
             spotLight.enabled = false;
         }
-    }
-
-    void OnMouseDown()
-    {
-        // We don't do anything for the moment
     }
 
     public void SendSpaceship(UnityEngine.Vector3 destination)
@@ -80,9 +83,10 @@ public class Planet : MonoBehaviour
         spaceship.destination = destination;
         UpdateTextMesh();
     }
-    // Calculate the inclination of the spaceship and it's direction depending on it's destination.
+    
     private UnityEngine.Vector3 CalculateRotation(UnityEngine.Vector3 destination)
     {
+        // This function calculates the inclination of the spaceship and it's direction depending on it's destination.
         UnityEngine.Vector3 origin = spawner.position;
         float xRotation;
         float yRotation;
@@ -104,8 +108,8 @@ public class Planet : MonoBehaviour
         UnityEngine.Vector3 Rotation = new(xRotation, yRotation, zRotation);
         return Rotation;
     }
-
-    void OnTriggerEnter(Collider collision)
+    
+    void OnTriggerEnter(Collider collision) // When a spaceship arrives to the planet
     {
         GameObject spaceship = collision.gameObject;
         if (owner == "player")
@@ -171,7 +175,29 @@ public class Planet : MonoBehaviour
         Destroy(spaceship);
         UpdateTextMesh();
     }
-    
+
+    IEnumerator RegenerateTroops()
+    {
+        float timer = 0f;
+        while (true)
+        {
+            // Adds the time difference
+            timer += Time.deltaTime;
+
+            // If the regeneration time has passed we restart the timer and add a troop
+            if (timer >= regenerationTime)
+            {
+                timer = 0f;
+                if (troops < capacity)
+                {
+                    troops++;
+                    UpdateTextMesh();
+                }
+            }
+            yield return null;
+        }
+    }
+
     public void UpdateColorTextMesh()
     {
         // The planet is blue if the owner is the player, otherwise it's red.
