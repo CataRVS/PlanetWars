@@ -19,10 +19,11 @@ public class Menu : MonoBehaviour
 
     public void Play()
     {
-        Debug.Log("Play");
+        Time.timeScale = 1;
+        startMenu.SetActive(false);
         game.SetActive(true);
         gameObjectPauseMenu.SetActive(false);
-        startMenu.SetActive(false);
+        Debug.Log("Play");
     }
 
     public void Pause()
@@ -40,15 +41,15 @@ public class Menu : MonoBehaviour
     public void Restart()
     {
         game.SetActive(false);
-        gameObjectPauseMenu.SetActive(false);
         game.SetActive(true);
+        gameObjectPauseMenu.SetActive(false);
         Time.timeScale = 1;
     }
 
     public void Exit()
     {
-        startMenu.SetActive(true);
         game.SetActive(false);
+        startMenu.SetActive(true);
         Time.timeScale = 1;
     }
 

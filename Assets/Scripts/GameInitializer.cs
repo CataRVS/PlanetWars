@@ -22,15 +22,12 @@ public class GameInitializer : MonoBehaviour
         planetList.Clear();
         // We look for the planets on the scene and we order by position them to assign an owner to each one
         Planet[] planetsArray = FindObjectsOfType<Planet>();
-        Debug.Log(planetsArray.Length);
         int totalPlanets = planetsArray.Length;
         for (int i = 0; i < totalPlanets; i++)
         {
             planetsArray[i].gameObject.SetActive(true);
-            Debug.Log(i);
         }
         planetList.AddRange(planetsArray.OrderBy(planet => planet.transform.position.x).ToArray());
-        Debug.Log(planetList.Count);
         int half = totalPlanets / 2;
             for (int i = 0; i < totalPlanets; i++)
         {
