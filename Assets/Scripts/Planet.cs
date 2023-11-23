@@ -14,38 +14,32 @@ public class Planet : MonoBehaviour
     [SerializeField] int sendTroops = 5; // Amout of troops sent by default
     [SerializeField] float regenerationTime = 2.0f; // Time needed to add one troop
 
+    [SerializeField] TextMeshPro troopText; // Shows the number of troops and the capacity of the planet
+    [SerializeField] Light spotLight; // The light shown when the planet is selected
+    [SerializeField] GameObject spawnerGameObject; 
+    private Transform spawner; // Referencia al spawner.
+
     public string owner = ""; // Saves the owner of the planet (player o AI).
     public int capacity; // Saves the capacity of the planet
     public int troops; // Saves the number of troops in the planet
 
-    private TextMeshPro troopText; // Shows the number of troops and the capacity of the planet
-    private Light spotLight; // The light shown when the planet is selected
-    private Transform spawner; // Referencia al spawner.
 
-    void Start()
+    void OnEnable()
     {
-        // We look for the GameObjects corresponding to each variable
-        troopText = GetComponentInChildren<TextMeshPro>();
-        spotLight = GetComponentInChildren<Light>();
-        spawner = transform.Find("ShipSpawner");
-    }
-    void Awake()
-    {
-        // We look for the GameObjects corresponding to each variable
-        troopText = GetComponentInChildren<TextMeshPro>();
-        spotLight = GetComponentInChildren<Light>();
-        // We nable the spotlight at the beginig of each game.
+        troopText.gameObject.SetActive(true);
+        spotLight.gameObject.SetActive(true);
         spotLight.enabled = false;
+        spawnerGameObject.SetActive(true);
+        spawner = spawnerGameObject.transform;
+        StartPlanet();
+    }
 
+    void StartPlanet()
+    {
         troops = initialTroops;
         capacity = initialCapacity;
         UpdateTextMesh();
         StartCoroutine(RegenerateTroops());
-    }
-
-    void Update()
-    {
-        // Update
     }
 
     void OnMouseEnter()

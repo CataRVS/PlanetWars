@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private Planet PlanetOrig = null; // Planet from which the troops are sent
-    private Planet PlanetDest = null; // Planet to which the troops are sent
+    private Planet planetOrig = null; // Planet from which the troops are sent
+    private Planet planetDest = null; // Planet to which the troops are sent
 
     [SerializeField] int sendTroops = 5; // Amout of troops sent by default
 
@@ -18,25 +18,25 @@ public class Player : MonoBehaviour
         }
 
         // If have already selected both planets, we conquer or defend depending on the destination planet.
-        if (PlanetOrig != null && PlanetDest != null)
+        if (planetOrig != null && planetDest != null)
         {
-            if (PlanetDest.owner == "AI")
+            if (planetDest.owner == "AI")
             {
-                //ConquerPlanet(PlanetOrig, PlanetDest);
-                if (PlanetOrig.troops >= sendTroops)
+                //ConquerPlanet(planetOrig, planetDest);
+                if (planetOrig.troops >= sendTroops)
                 {
-                    PlanetOrig.SendSpaceship(PlanetDest.transform.position);
+                    planetOrig.SendSpaceship(planetDest.transform.position);
                 }
             }
-            else if (PlanetDest.owner == "player")
+            else if (planetDest.owner == "player")
             {
-                if (PlanetOrig != PlanetDest)
+                if (planetOrig != planetDest)
                 {
-                    if (PlanetOrig.troops >= sendTroops)
+                    if (planetOrig.troops >= sendTroops)
                     {
-                        PlanetOrig.SendSpaceship(PlanetDest.transform.position);
+                        planetOrig.SendSpaceship(planetDest.transform.position);
                     }
-                    //ReinforceDefensePlanet(PlanetOrig, PlanetDest);
+                    //ReinforceDefensePlanet(planetOrig, planetDest);
                 }
             }
             CleanSection();
@@ -56,14 +56,14 @@ public class Player : MonoBehaviour
             if (clickedPlanet != null)
             {
                 // If it's the first click, it's the origin so it must be a player's planet.
-                if (PlanetOrig == null && clickedPlanet.owner != "AI")
+                if (planetOrig == null && clickedPlanet.owner != "AI")
                 {
-                    PlanetOrig = clickedPlanet;
+                    planetOrig = clickedPlanet;
                 }
                 // If it's the second click, it's the destination
-                else if (PlanetDest == null && PlanetOrig != null)
+                else if (planetDest == null && planetOrig != null)
                 {
-                    PlanetDest = clickedPlanet;
+                    planetDest = clickedPlanet;
                 }
             }
             // If the player doesn't hit the planet, we clean the selection
@@ -79,80 +79,80 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void ConquerPlanet(Planet PlanetOrig, Planet PlanetDest)
+    public void ConquerPlanet(Planet planetOrig, Planet planetDest)
     {
         Debug.Log("Conquistando planeta");
 
         // If the origin planet hasn't got enough troops, we don't try to conquer
-        if (PlanetOrig.troops >= sendTroops)
+        if (planetOrig.troops >= sendTroops)
         {
             // We calculate the number of troops left in each planet
-            int troopsRemainingOrigin = PlanetOrig.troops - sendTroops;
-            int troopsRemainingDestination = 0;
+            int troopsRemainingOrigin = planetOrig.troops - sendTroops;
+            int troopsRemainingDestination;
 
             // If the troops sent are greater than the ones in the planet, we conquer the planet
-            if (PlanetDest.troops < sendTroops)
+            if (planetDest.troops < sendTroops)
             {
-                PlanetDest.owner = "player";
-                troopsRemainingDestination = sendTroops - PlanetDest.troops;
+                planetDest.owner = "player";
+                troopsRemainingDestination = sendTroops - planetDest.troops;
 
             }
             // If there aren't enough troops, we don't conquer
             else
             {
-                troopsRemainingDestination = PlanetDest.troops - sendTroops;
+                troopsRemainingDestination = planetDest.troops - sendTroops;
             }
 
             // Update the color of the text
-            PlanetDest.UpdateColorTextMesh();
+            planetDest.UpdateColorTextMesh();
 
             // Update the number of troops in origin and in the destination
-            PlanetOrig.troops = troopsRemainingOrigin;
-            PlanetDest.troops = troopsRemainingDestination;
+            planetOrig.troops = troopsRemainingOrigin;
+            planetDest.troops = troopsRemainingDestination;
 
             // Update the text of the planets indicating the number of troops
-            PlanetOrig.UpdateTextMesh();
-            PlanetDest.UpdateTextMesh();
+            planetOrig.UpdateTextMesh();
+            planetDest.UpdateTextMesh();
         }
     }
 
-    public void ReinforceDefensePlanet(Planet PlanetOrig, Planet PlanetDest)
+    public void ReinforceDefensePlanet(Planet planetOrig, Planet planetDest)
     {
         // If the origin planet hasn't got enough troops or the destination is already full, we don't defend
-        if (PlanetOrig.troops >= sendTroops && PlanetDest.troops < PlanetDest.capacity)
+        if (planetOrig.troops >= sendTroops && planetDest.troops < planetDest.capacity)
         {
             // We calculate the number of troops left in each planet
-            int troopsRemainingOrigin = 0;
-            int troopsRemainingDestination = 0;
+            int troopsRemainingOrigin;
+            int troopsRemainingDestination;
 
             // If we don't reach the capacity with the actual number of troops sent, we send them all
-            if (PlanetDest.troops + sendTroops <= PlanetDest.capacity)
+            if (planetDest.troops + sendTroops <= planetDest.capacity)
             {
-                troopsRemainingDestination = PlanetDest.troops + sendTroops;
-                troopsRemainingOrigin = PlanetOrig.troops - sendTroops;
+                troopsRemainingDestination = planetDest.troops + sendTroops;
+                troopsRemainingOrigin = planetOrig.troops - sendTroops;
             }
             // If we reach the capacity with the actual number of troops sent, we only send the ones needed to reach the capacity
             else
             {
-                troopsRemainingDestination = PlanetDest.capacity;
-                troopsRemainingOrigin = PlanetOrig.troops + (PlanetDest.troops - PlanetDest.capacity);
+                troopsRemainingDestination = planetDest.capacity;
+                troopsRemainingOrigin = planetOrig.troops + (planetDest.troops - planetDest.capacity);
             }
 
             // Update the number of troops in origin and in the destination
-            PlanetOrig.troops = troopsRemainingOrigin;
-            PlanetDest.troops = troopsRemainingDestination;
+            planetOrig.troops = troopsRemainingOrigin;
+            planetDest.troops = troopsRemainingDestination;
 
             // Update the text of the planets indicating the number of troops
-            PlanetOrig.UpdateTextMesh();
-            PlanetDest.UpdateTextMesh();
+            planetOrig.UpdateTextMesh();
+            planetDest.UpdateTextMesh();
         }
     }
 
     void CleanSection()
     {
         // We clean the selection of planets selected
-        PlanetOrig = null;
-        PlanetDest = null;
+        planetOrig = null;
+        planetDest = null;
     }
 }
 

@@ -1,42 +1,61 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
-public class MainMenu : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class Menu : MonoBehaviour
 {
-    private GameObject Introduccion;
-    private GameObject Game;
-    private Vector3 normalScale;
-    public float scaleFactor = 1.15f;
+    [SerializeField] GameObject gameObjectPauseMenu;
+    [SerializeField] GameObject game;
+    [SerializeField] GameObject startMenu;
 
-    private void Start()
+    public void Start()
     {
-        normalScale = transform.localScale;
-    }
-
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        // Ajustar la escala para hacer el botón un poco más grande.
-        transform.localScale = normalScale * scaleFactor;
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        // Restaurar la escala normal cuando el ratón sale del botón.
-        transform.localScale = normalScale;
+        startMenu.SetActive(true);
+        gameObjectPauseMenu.SetActive(false);
+        game.SetActive(false);
+        Time.timeScale = 1;
     }
 
     public void Play()
     {
-        SceneManager.LoadScene(1);
-        gameObject.SetActive(false);
+        Debug.Log("Play");
+        game.SetActive(true);
+        gameObjectPauseMenu.SetActive(false);
+        startMenu.SetActive(false);
+    }
+
+    public void Pause()
+    {
+        Time.timeScale = 0;
+        gameObjectPauseMenu.SetActive(true);
+    }
+
+    public void Resume()
+    {
+        Time.timeScale = 1;
+        gameObjectPauseMenu.SetActive(false);
+    }
+
+    public void Restart()
+    {
+        game.SetActive(false);
+        gameObjectPauseMenu.SetActive(false);
+        game.SetActive(true);
+        Time.timeScale = 1;
     }
 
     public void Exit()
     {
+        startMenu.SetActive(true);
+        game.SetActive(false);
+        Time.timeScale = 1;
+    }
+
+    public void Quit()
+    {
         Debug.Log("Exiting game...");
-        Application.Quit();
+        //Application.Quit();
+        EditorApplication.isPlaying = false;
     }
 }
-

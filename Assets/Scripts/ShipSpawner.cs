@@ -25,7 +25,7 @@ public class ShipSpawner : MonoBehaviour
     }
     private void SpawnShip(Vector3 destination)
     {
-        GameObject spaceshipRaw = null;
+        GameObject spaceshipRaw;
         if (owner == "player")
         {
             spaceshipRaw = Instantiate(playerShipPrefab, spawner.position, Quaternion.identity);

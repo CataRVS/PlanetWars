@@ -35,27 +35,4 @@ public class Spaceship : MonoBehaviour
             transform.position = destination;
         }
     }
-
-    // Generates and moves the the spaceship from an origin to a destination
-    //public IEnumerator MoveShipParabolically(Vector3 destination)
-    //{
-    //    float coveredPath = 0f;
-    //    Vector3 initialPosition = transform.position;
-    //    Debug.Log(initialPosition);
-
-    //    while (coveredPath < 1f)
-    //    {
-    //        coveredPath += Time.deltaTime * speed;
-
-    //        // Calcula la posición intermedia usando una función cuadrática (parabólica).
-    //        Vector3 newPosition = Vector3.Lerp(initialPosition, destination, coveredPath);
-    //        newPosition.y = Mathf.Sin(coveredPath * Mathf.PI) * 2f;
-
-    //        // Aplica la nueva posición a la nave.
-    //        transform.position = newPosition;
-
-    //        yield return null;
-    //    }
-    //    transform.position = destination;
-    //}
 }

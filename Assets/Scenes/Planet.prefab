@@ -426,6 +426,10 @@ MonoBehaviour:
   initialTroops: 17
   initialCapacity: 25
   sendTroops: 5
+  regenerationTime: 2
+  troopText: {fileID: 762148164225885096}
+  spotLight: {fileID: 3641102134372196666}
+  spawnerGameObject: {fileID: 2304449335489813545}
   owner: 
   capacity: 0
   troops: 0
