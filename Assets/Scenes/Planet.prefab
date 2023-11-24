@@ -311,7 +311,6 @@ GameObject:
   - component: {fileID: 7179199716325760599}
   - component: {fileID: 1609576424434033478}
   - component: {fileID: 1159128366570228659}
-  - component: {fileID: 4151966506048273828}
   - component: {fileID: -6043596759275760395}
   m_Layer: 0
   m_Name: Planet
@@ -433,20 +432,6 @@ MonoBehaviour:
   owner: 
   capacity: 0
   troops: 0
---- !u!114 &4151966506048273828
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7184029627251835532}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cfa3d953c1a1542c083b8226586efa17, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerShipPrefab: {fileID: 6661275843189623628, guid: 1718b4e9a7114654da9d4f6e24ea255a, type: 3}
-  enemyShipPrefab: {fileID: 8163629130676100436, guid: 73733284b8edbd04fb247d2698e45918, type: 3}
 --- !u!54 &-6043596759275760395
 Rigidbody:
   m_ObjectHideFlags: 0

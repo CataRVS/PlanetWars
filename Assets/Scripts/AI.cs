@@ -1,138 +1,92 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEditor;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.Port;
 
 public class AI : MonoBehaviour
 {
-    public float waitingTime = 2.0f; // Tiempo de espera entre los movimientos de la IA.
-    private Planet PlanetOrig = null; // El planeta desde el que se envían las tropas.
-    private Planet PlanetDest = null; // El planeta al que se van a transferir las tropas.
-    public int sendTroops = 5; // Cantidad predeterminada de tropas a transferir con un click.
+    [SerializeField] int criticalNum = 7;
+    public float waitingTime = 2.0f; // Waiting time between AI's actions
+    public int sendTroops = 5; // Quantity of troops transferred with a click.
+    private Planet planetOrig; // Planet sending the troops
+    private Planet targetPlanet;
+    private Planet helpPlanet;
+    private List<Planet> planetList = new List<Planet>();
 
-   /// void Start()
-    
-
-    void Update()
+    void OnEnable()
     {
-        if (PlanetOrig != null && PlanetDest != null)
-        {
-            if (PlanetOrig.owner == "AI" && PlanetDest.owner == "player")
-            {
-                ConquerPlanet(PlanetOrig, PlanetDest);
-                CleanSection();
-            }
-            else if (PlanetOrig.owner == "AI" && PlanetDest.owner == "AI")
-            { 
-                ReforceDefensePlanet(PlanetOrig, PlanetDest);
-                CleanSection();
-            }
-            else
-            {
-                CleanSection();
-            }
-        }
-        // En el turno de la IA, implementa la lógica de decisión.
-        MakeDecision();
-
-        // Simula un retraso antes de cambiar al turno del jugador.
-        StartCoroutine(WaitToChangeTurn());
+        Planet[] planetsArray = FindObjectsOfType<Planet>();
+        planetList.AddRange(planetsArray.OrderBy(planet => planet.transform.position.x).ToArray());
+        StartCoroutine(AIManagement());
     }
 
-    public void ConquerPlanet(Planet PlanetOrig, Planet PlanetDest)
-    {
-        int troopsRemainingOrigin = 0;
-        int troopsRemainingDestination = 0;
-
-        if (PlanetOrig.troops >= sendTroops)
-        {
-            // Calcula las tropas restantes después de la conquista.
-            troopsRemainingOrigin = PlanetOrig.troops - sendTroops;
-
-            if (PlanetDest.troops < sendTroops)  // si el planeta destino tiene menos tropas que las que se envían, el planeta se conquista.
-            {
-                PlanetDest.owner = "AI";  // conquistamos
-                troopsRemainingDestination = sendTroops - PlanetDest.troops;
-    
-            }
-            else  // el planeta destino tiene más tropas de las que vamos a enviar, no conquistamos
-            {
-                troopsRemainingDestination = PlanetDest.troops - sendTroops;
-            }
-
-            // Actualiza el color del TextMesh del planeta destino según las condiciones.
-            PlanetDest.UpdateColorTextMesh();
-
-            // Actualiza la cantidad de tropas en el planeta origen y destino.
-            PlanetOrig.troops = troopsRemainingOrigin;
-            PlanetDest.troops = troopsRemainingDestination;
-
-            // Actualiza el TextMesh de los planetas para mostrar las cantidades actualizadas.
-            PlanetOrig.UpdateTextMesh();
-            PlanetDest.UpdateTextMesh();
-        }
-    }
-
-    public void ReforceDefensePlanet(Planet PlanetOrig, Planet PlanetDest )
-    {
-        int troopsRemainingOrigin = 0;
-        int troopsRemainingDestination = 0;
-
-        if (PlanetOrig.troops >= sendTroops && PlanetDest.troops < PlanetDest.capacity)
-        {
-            // Calcula las tropas restantes después de la conquista.
-            
-
-            if (PlanetDest.troops + sendTroops <= PlanetDest.capacity)  // el planeta destino tiene más tropas de las que vamos a enviar, no conquistamos
-            {
-                troopsRemainingDestination = PlanetDest.troops + sendTroops;
-                troopsRemainingOrigin = PlanetOrig.troops - sendTroops;
-            }
-            else
-            {
-                troopsRemainingDestination = PlanetDest.capacity;
-                troopsRemainingOrigin = PlanetOrig.troops + (PlanetDest.troops - PlanetDest.capacity);
-            }
-
-            // Actualiza el color del TextMesh del planeta destino según las condiciones.
-            PlanetDest.UpdateColorTextMesh();
-
-            // Actualiza la cantidad de tropas en el planeta origen y destino.
-            PlanetOrig.troops = troopsRemainingOrigin;
-            PlanetDest.troops = troopsRemainingDestination;
-
-            // Actualiza el TextMesh de los planetas para mostrar las cantidades actualizadas.
-            PlanetOrig.UpdateTextMesh();
-            PlanetDest.UpdateTextMesh();
-        }
-    }
-    void CleanSection()
-    {
-        // Limpia la selección de origen y destino para el siguiente movimiento.
-        PlanetOrig = null;
-        PlanetDest = null;
-    }
-    // Función que simula una decisión de la IA.
+    // Simulates the AI's decision
     void MakeDecision()
     {
-        // Aquí puedes implementar la lógica de la IA para:
-        // - Evaluar la situación actual del juego.
-        // - Seleccionar objetivos para atacar.
-        // - Mover tropas entre planetas.
-        // - Realizar acciones estratégicas, como la conquista de planetas.
-
-        // Ejemplo de una decisión aleatoria (puedes reemplazarlo con una lógica más avanzada):
-        GameObject[] enemyPlanets = GameObject.FindGameObjectsWithTag("EnemyPlanet");
-        if (enemyPlanets.Length > 0)
+        planetOrig = null;
+        targetPlanet = null;
+        helpPlanet = null;
+        int minPlayer = 1000000;
+        int maxIA = 0;
+        int minIA = 1000000;
+        int totalPlanets = planetList.Count;
+        for (int i = 0; i < totalPlanets; i++)
         {
-            int ObjectiveIndex = Random.Range(0, enemyPlanets.Length);
-            // Aquí puedes implementar la lógica para atacar el planeta seleccionado.
+            if (planetList[i].owner == "player")
+            {
+                if (planetList[i].troops < minPlayer)
+                {
+                    minPlayer = planetList[i].troops;
+                    targetPlanet = planetList[i];
+                }
+            }
+            else if (planetList[i].owner == "AI")
+            {
+                if (planetList[i].troops < minIA)
+                {
+                    minIA = planetList[i].troops;
+                    helpPlanet = planetList[i];
+                }
+                else if (planetList[i].troops > maxIA)
+                {
+                    maxIA = planetList[i].troops;
+                    planetOrig = planetList[i];
+                }
+            }
+        }
+        if (planetOrig.troops > 5)
+        {
+            if (helpPlanet.troops < criticalNum && helpPlanet != planetOrig)
+            {
+                planetOrig.SendSpaceship(helpPlanet.transform.position);
+
+            }
+            else
+            {
+                planetOrig.SendSpaceship(targetPlanet.transform.position);
+            }
+
         }
     }
 
-    IEnumerator WaitToChangeTurn()
+    IEnumerator AIManagement()
     {
-        yield return new WaitForSeconds(waitingTime);
-    }
-    
-}
+        float timer = 0f;
+        while (true)
+        {
+            // Adds the time difference
+            timer += Time.deltaTime;
 
+            // If the waiting time has passed we restart the timer and make a decision
+            if (timer >= waitingTime)
+            {
+                MakeDecision();
+                timer = 0f;
+            }
+            yield return null;
+        }
+    }
+
+}

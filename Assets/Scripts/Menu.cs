@@ -9,21 +9,12 @@ public class Menu : MonoBehaviour
     [SerializeField] GameObject game;
     [SerializeField] GameObject startMenu;
 
-    public void Start()
-    {
-        startMenu.SetActive(true);
-        gameObjectPauseMenu.SetActive(false);
-        game.SetActive(false);
-        Time.timeScale = 1;
-    }
-
     public void Play()
     {
-        Time.timeScale = 1;
         startMenu.SetActive(false);
         game.SetActive(true);
         gameObjectPauseMenu.SetActive(false);
-        Debug.Log("Play");
+        Time.timeScale = 1;
     }
 
     public void Pause()

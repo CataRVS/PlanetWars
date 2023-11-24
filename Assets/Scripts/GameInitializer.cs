@@ -12,7 +12,6 @@ public class GameInitializer : MonoBehaviour
 
     private void OnEnable()
     {
-        
         pauseButton.SetActive(true);
         Initilizer();
     }
