@@ -8,7 +8,7 @@ using static UnityEditor.Experimental.GraphView.Port;
 public class AI : MonoBehaviour
 {
     [SerializeField] int criticalNum = 7;
-    public float waitingTime = 2.0f; // Waiting time between AI's actions
+    public float waitingTime = 2.5f; // Waiting time between AI's actions
     public int sendTroops = 5; // Quantity of troops transferred with a click.
     private Planet planetOrig; // Planet sending the troops
     private Planet targetPlanet;
@@ -18,20 +18,23 @@ public class AI : MonoBehaviour
     void OnEnable()
     {
         Planet[] planetsArray = FindObjectsOfType<Planet>();
-        planetList.AddRange(planetsArray.OrderBy(planet => planet.transform.position.x).ToArray());
+        planetList.AddRange(planetsArray.ToArray());
         StartCoroutine(AIManagement());
     }
 
     // Simulates the AI's decision
     void MakeDecision()
     {
+        int totalPlanets = planetList.Count;
+        // We reset the decisions
         planetOrig = null;
         targetPlanet = null;
         helpPlanet = null;
+
+        // We reset the values of the minimums and maximumns
         int minPlayer = 1000000;
         int maxIA = 0;
         int minIA = 1000000;
-        int totalPlanets = planetList.Count;
         for (int i = 0; i < totalPlanets; i++)
         {
             if (planetList[i].owner == "player")
@@ -49,7 +52,7 @@ public class AI : MonoBehaviour
                     minIA = planetList[i].troops;
                     helpPlanet = planetList[i];
                 }
-                else if (planetList[i].troops > maxIA)
+                if (planetList[i].troops >= maxIA)
                 {
                     maxIA = planetList[i].troops;
                     planetOrig = planetList[i];
@@ -61,13 +64,11 @@ public class AI : MonoBehaviour
             if (helpPlanet.troops < criticalNum && helpPlanet != planetOrig)
             {
                 planetOrig.SendSpaceship(helpPlanet.transform.position);
-
             }
             else
             {
                 planetOrig.SendSpaceship(targetPlanet.transform.position);
             }
-
         }
     }
 
@@ -88,5 +89,4 @@ public class AI : MonoBehaviour
             yield return null;
         }
     }
-
 }

@@ -9,6 +9,8 @@ public class Menu : MonoBehaviour
     [SerializeField] GameObject game;
     [SerializeField] GameObject startMenu;
 
+    [SerializeField] GameObject gameObjectPanelInstructions;
+
     public void Play()
     {
         startMenu.SetActive(false);
@@ -47,7 +49,18 @@ public class Menu : MonoBehaviour
     public void Quit()
     {
         Debug.Log("Exiting game...");
-        //Application.Quit();
-        EditorApplication.isPlaying = false;
+
+        #if UNITY_EDITOR
+            EditorApplication.isPlaying = false;
+        #else
+            Application.Quit();
+        #endif
+
+    }
+
+    public void Instructions()
+    {
+        Time.timeScale = 0;
+        gameObjectPanelInstructions.SetActive(true);
     }
 }
