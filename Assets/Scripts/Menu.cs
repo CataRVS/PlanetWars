@@ -63,4 +63,25 @@ public class Menu : MonoBehaviour
         Time.timeScale = 0;
         gameObjectPanelInstructions.SetActive(true);
     }
+
+    public void Back()
+    {
+        Time.timeScale = 1;
+        gameObjectPanelInstructions.SetActive(false);
+    }
+
+    public void InstrucionsPanel()
+    {
+        if (gameObjectPanelInstructions.activeSelf)
+        {
+            Time.timeScale = 1;
+            gameObjectPanelInstructions.SetActive(false);
+        }
+        else
+        {
+            Time.timeScale = 0;
+            gameObjectPanelInstructions.SetActive(true);
+        }
+        
+    }
 }

@@ -5,6 +5,8 @@ using UnityEngine;
 public class EndOfGame : MonoBehaviour
 {
     private List<Planet> planetList = new List<Planet>();
+    [SerializeField] GameObject gameObjectVictoryPanel;
+    [SerializeField] GameObject gameObjectGameOverPanel;
     [SerializeField] GameObject victory;
     [SerializeField] GameObject gameOver;
     // Start is called before the first frame update
@@ -56,13 +58,17 @@ public class EndOfGame : MonoBehaviour
 
     void Victory()
     {
+        Time.timeScale = 0;
         Debug.Log("Victory!");
         victory.SetActive(true);
+        gameObjectVictoryPanel.SetActive(true);
     }
 
     void Defeat()
     {
+        Time.timeScale = 0;
         Debug.Log("Game Over!");
         gameOver.SetActive(true);
+        gameObjectGameOverPanel.SetActive(true);
     }
 }
