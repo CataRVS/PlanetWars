@@ -10,7 +10,7 @@ public class EndOfGame : MonoBehaviour
     [SerializeField] GameObject backToMenu;
     private GameManager gameManager;
     private bool gameFinished;
-    // Start is called before the first frame update
+
     private void Start()
     {
         Planet[] planetsArray = FindObjectsOfType<Planet>();
@@ -23,7 +23,6 @@ public class EndOfGame : MonoBehaviour
         gameFinished = false;
     }
 
-    // Update is called once per frame
     private void Update()
     {
         if (CheckEndOfGame() && !gameFinished)

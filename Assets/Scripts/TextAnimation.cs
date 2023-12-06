@@ -6,16 +6,13 @@ using TMPro;
 
 public class TextBlink : MonoBehaviour
 {
-    
     [SerializeField] float scaleFactor = 1.2f;
     [SerializeField] float blinkSpeed = 0.1f;
     private Vector3 originalScale;
-
+    
     private void OnEnable()
     {
         originalScale = transform.localScale;
-
-        // Comienza la corutina para el efecto de agrandamiento y empequeñecimiento continuo.
         StartCoroutine(BlinkText());
     }
 
@@ -23,11 +20,11 @@ public class TextBlink : MonoBehaviour
     {
         while (true)
         {
-            // Agranda el texto.
+            // Increase font size
             transform.localScale = originalScale * scaleFactor;
             yield return new WaitForSeconds(blinkSpeed);
 
-            // Empequeñece el texto.
+            // Decrease font size
             transform.localScale = originalScale;
             yield return new WaitForSeconds(blinkSpeed);
         }

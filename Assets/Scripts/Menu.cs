@@ -87,6 +87,5 @@ public class Menu : MonoBehaviour
             Time.timeScale = 0;
             gameObjectPanelInstructions.SetActive(true);
         }
-        
     }
 }

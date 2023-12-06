@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     private bool selectingPlanetDest = false;
     private List<Planet> planetsOrig = new();
     private GameManager gameManager;
+
     private void Start()
     {
         gameManager = FindObjectOfType<GameManager>();

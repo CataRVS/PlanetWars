@@ -39,6 +39,7 @@ public class GameInitializer : MonoBehaviour
             planetList[i].UpdateColorTextMesh();
         }
     }
+
     private void SpaceshipInitializer()
     {
         Spaceship[] spaceshipsArray = FindObjectsOfType<Spaceship>();

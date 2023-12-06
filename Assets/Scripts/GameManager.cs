@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
         UpdateCrownCounter();
     }
+
     public void AddCrowns()
     {
         Crowns += reward;

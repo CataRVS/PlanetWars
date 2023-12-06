@@ -18,12 +18,12 @@ public class Planet : MonoBehaviour
 
     [SerializeField] TextMeshPro troopText; // Shows the number of troops and the capacity of the planet
     [SerializeField] Light spotLight; // The light shown when the planet is selected
-    [SerializeField] GameObject spawnerGameObject; 
+    [SerializeField] GameObject spawnerGameObject;
+
     private Transform spawner; // Referencia al spawner.
     public string owner = ""; // Saves the owner of the planet (player o AI)
     public int Capacity { get; private set; } // Saves the capacity of the planet
     public int Troops { get; private set; } // Saves the number of troops in the planet
-
 
     private void OnEnable()
     {
@@ -85,7 +85,6 @@ public class Planet : MonoBehaviour
         }
     }
 
-
     private UnityEngine.Vector3 CalculateRotation(UnityEngine.Vector3 destination)
     {
         // This function calculates the inclination of the spaceship and it's direction depending on it's destination.
@@ -110,7 +109,7 @@ public class Planet : MonoBehaviour
         UnityEngine.Vector3 Rotation = new(xRotation, yRotation, zRotation);
         return Rotation;
     }
-    
+    //
     private void OnTriggerEnter(Collider collision) // When a spaceship arrives to the planet
     {
         GameObject spaceship = collision.gameObject;
