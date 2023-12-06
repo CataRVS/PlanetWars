@@ -57,6 +57,7 @@ public class Player : MonoBehaviour
             Planet clickedPlanet = hit.collider.GetComponent<Planet>();
             if (clickedPlanet != null)
             {
+                // If the player is the owner of the planet and you havent selected it already we add it to the list
                 if (clickedPlanet.owner == "player" && !planetsOrig.Contains(clickedPlanet))
                 {
                     planetsOrig.Add(clickedPlanet);
