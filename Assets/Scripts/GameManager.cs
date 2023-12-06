@@ -1,20 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    private List<Planet> planetList = new List<Planet>();  // Una lista de planetas en tu escena.
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] GameObject game;
+    [SerializeField] GameObject startMenu;
+    [SerializeField] TextMeshProUGUI crownTextStart;
+    [SerializeField] TextMeshProUGUI crownTextGame;
+
+    [SerializeField] int initialCrowns = 0;
+    [SerializeField] int reward = 10;
+    public int boosterCost = 20;
+    public int Crowns { get; private set; }
+
+    public void Start()
     {
-        Planet[] planetsArray = FindObjectsOfType<Planet>();
-        int totalPlanets = planetsArray.Length;
+        Crowns = initialCrowns;
+        startMenu.SetActive(true);
+        game.SetActive(false);
+        Time.timeScale = 1;
+        UpdateCrownCounter();
+    }
+    public void AddCrowns()
+    {
+        Crowns += reward;
+        UpdateCrownCounter();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void RemoveCrowns()
     {
-        
+        Crowns -= boosterCost;
+        UpdateCrownCounter();
+    }
+    void UpdateCrownCounter()
+    {
+        crownTextStart.text = Crowns.ToString();
+        crownTextGame.text = Crowns.ToString();
     }
 }

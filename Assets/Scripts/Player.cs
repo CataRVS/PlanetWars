@@ -7,8 +7,14 @@ public class Player : MonoBehaviour
     [SerializeField] int sendTroops = 5; // Amout of troops sent by default
     private float scaleFactor = 1.1f;
     private Planet planetDest; // Planet to which the troops are sent
-    private bool selectingPlanetsOrig; // Is true if the mouse is down while selecting planets
+    private bool selectingPlanetsOrig = false; // Is true if the mouse is down while selecting planets
+    private bool selectingPlanetDest = false;
     private List<Planet> planetsOrig = new();
+    private GameManager gameManager;
+    private void Start()
+    {
+        gameManager = FindObjectOfType<GameManager>();
+    }
 
     void Update()
     {
@@ -16,7 +22,7 @@ public class Player : MonoBehaviour
         if (Input.GetMouseButton(0))
         {
             // You are selecting the first origin planet
-            if (planetsOrig.Count == 0)
+            if (planetsOrig.Count == 0 && !selectingPlanetDest)
             {
                 selectingPlanetsOrig = true;
                 SelectPlanetsOrig();
@@ -27,15 +33,21 @@ public class Player : MonoBehaviour
                 SelectPlanetsOrig();
             }
             // You are selecting your destination planet
-            else
+            else if (!selectingPlanetDest)
             {
                 SelectPlanetDest();
+                selectingPlanetDest = true;
             }
         }
         // You are not pressing the mouse button
         else
         {
             selectingPlanetsOrig = false;
+            selectingPlanetDest = false;
+        }
+        if (Input.GetMouseButtonDown(1))
+        {
+            UpgradePlanet();
         }
         // If yoou have already selected both type of planets we send the troops to the destination.
         if (planetsOrig.Count != 0 && !selectingPlanetsOrig && planetDest != null)
@@ -44,6 +56,7 @@ public class Player : MonoBehaviour
             CleanSection();
         }
     }
+
     void SelectPlanetsOrig()
     {
         // Raycast to the mouse position
@@ -66,7 +79,7 @@ public class Player : MonoBehaviour
         
     }
 
-    public void SelectPlanetDest()
+    void SelectPlanetDest()
     {
         // Raycast to the mouse position
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -113,5 +126,23 @@ public class Player : MonoBehaviour
         // We clean the selection of planets selected
         planetsOrig.Clear();
         planetDest = null;
+    }
+
+    void UpgradePlanet()
+    {
+        // Raycast to the mouse position
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out RaycastHit hit))
+        {
+            // We get the planet clicked if it exists
+            Planet clickedPlanet = hit.collider.GetComponent<Planet>();
+
+            if (clickedPlanet != null && gameManager.Crowns >= gameManager.boosterCost)
+            {
+                gameManager.RemoveCrowns();
+                clickedPlanet.UpgradeRegenerationTime();
+            }
+        }
     }
 }

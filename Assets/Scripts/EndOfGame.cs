@@ -8,18 +8,27 @@ public class EndOfGame : MonoBehaviour
     [SerializeField] GameObject gameObjectVictoryPanel;
     [SerializeField] GameObject gameObjectGameOverPanel;
     [SerializeField] GameObject backToMenu;
+    private GameManager gameManager;
+    private bool gameFinished;
     // Start is called before the first frame update
     void Start()
     {
         Planet[] planetsArray = FindObjectsOfType<Planet>();
         planetList.AddRange(planetsArray);
+        gameManager = FindObjectOfType<GameManager>();
+    }
+
+    private void OnEnable()
+    {
+        gameFinished = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (CheckEndOfGame())
+        if (CheckEndOfGame() && !gameFinished)
         {
+            gameFinished = true;
             if (planetList[0].owner == "player")
             {
                 Victory();
@@ -61,6 +70,7 @@ public class EndOfGame : MonoBehaviour
         Time.timeScale = 0;
         gameObjectVictoryPanel.SetActive(true);
         backToMenu.SetActive(true);
+        gameManager.AddCrowns();
     }
 
     void Defeat()

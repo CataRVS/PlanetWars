@@ -44,7 +44,6 @@ public class GameInitializer : MonoBehaviour
         Spaceship[] spaceshipsArray = FindObjectsOfType<Spaceship>();
         foreach (Spaceship spaceship in spaceshipsArray)
         {
-            Debug.Log(spaceship.name);
             Destroy(spaceship.gameObject);
         }
     }

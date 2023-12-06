@@ -10,10 +10,11 @@ public class Planet : MonoBehaviour
     [SerializeField] GameObject enemyShipPrefab;
     [SerializeField] GameObject shipManager;
 
+    [SerializeField] int sendTroops = 5; // Amout of troops sent by default
     [SerializeField] int initialTroops = 12;
     [SerializeField] int initialCapacity = 25;
-    [SerializeField] int sendTroops = 5; // Amout of troops sent by default
-    [SerializeField] float regenerationTime = 2.0f; // Time needed to add one troop
+    [SerializeField] float initialRegenerationTime = 2.0f;
+    [SerializeField] float regenerationTime; // Time needed to add one troop
 
     [SerializeField] TextMeshPro troopText; // Shows the number of troops and the capacity of the planet
     [SerializeField] Light spotLight; // The light shown when the planet is selected
@@ -22,7 +23,6 @@ public class Planet : MonoBehaviour
     public string owner = ""; // Saves the owner of the planet (player o AI)
     public int Capacity { get; private set; } // Saves the capacity of the planet
     public int Troops { get; private set; } // Saves the number of troops in the planet
-
 
 
     void OnEnable()
@@ -39,6 +39,7 @@ public class Planet : MonoBehaviour
     {
         Troops = initialTroops;
         Capacity = initialCapacity;
+        regenerationTime = initialRegenerationTime;
         UpdateTextMesh();
         StartCoroutine(RegenerateTroops());
     }
@@ -82,7 +83,7 @@ public class Planet : MonoBehaviour
     }
 
 
-    private UnityEngine.Vector3 CalculateRotation(UnityEngine.Vector3 destination)
+    UnityEngine.Vector3 CalculateRotation(UnityEngine.Vector3 destination)
     {
         // This function calculates the inclination of the spaceship and it's direction depending on it's destination.
         UnityEngine.Vector3 origin = spawner.position;
@@ -209,11 +210,16 @@ public class Planet : MonoBehaviour
         }
     }
 
-    public void UpdateTextMesh()
+    void UpdateTextMesh()
     {
         if (troopText != null)
         {
             troopText.text = $"{Troops}/{Capacity}";
         }
+    }
+
+    public void UpgradeRegenerationTime()
+    {
+        regenerationTime /= 2;
     }
 }
