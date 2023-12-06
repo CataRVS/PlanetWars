@@ -64,22 +64,25 @@ public class Planet : MonoBehaviour
 
     public void SendSpaceship(UnityEngine.Vector3 destination)
     {
-        Troops -= 5;
-        GameObject spaceshipRaw;
-        if (owner == "player")
+        if (Troops > sendTroops)
         {
-            spaceshipRaw = Instantiate(playerShipPrefab, spawner.position, UnityEngine.Quaternion.identity);
+            Troops -= 5;
+            GameObject spaceshipRaw;
+            if (owner == "player")
+            {
+                spaceshipRaw = Instantiate(playerShipPrefab, spawner.position, UnityEngine.Quaternion.identity);
+            }
+            else
+            {
+                spaceshipRaw = Instantiate(enemyShipPrefab, spawner.position, UnityEngine.Quaternion.identity);
+            }
+            // spaceshipRaw is a child of shipManager
+            spaceshipRaw.transform.parent = shipManager.transform;
+            spaceshipRaw.transform.rotation = UnityEngine.Quaternion.Euler(CalculateRotation(destination));
+            Spaceship spaceship = spaceshipRaw.GetComponent<Spaceship>();
+            spaceship.destination = destination;
+            UpdateTextMesh();
         }
-        else
-        {
-            spaceshipRaw = Instantiate(enemyShipPrefab, spawner.position, UnityEngine.Quaternion.identity);
-        }
-        // spaceshipRaw is a child of shipManager
-        spaceshipRaw.transform.parent = shipManager.transform;
-        spaceshipRaw.transform.rotation = UnityEngine.Quaternion.Euler(CalculateRotation(destination));
-        Spaceship spaceship = spaceshipRaw.GetComponent<Spaceship>();
-        spaceship.destination = destination;
-        UpdateTextMesh();
     }
 
 

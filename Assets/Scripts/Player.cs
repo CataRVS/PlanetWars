@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] int sendTroops = 5; // Amout of troops sent by default
     private float scaleFactor = 1.1f;
     private Planet planetDest; // Planet to which the troops are sent
     private bool selectingPlanetsOrig = false; // Is true if the mouse is down while selecting planets
@@ -110,7 +109,7 @@ public class Player : MonoBehaviour
     {
         foreach (Planet planet in planetsOrig)
         {
-            if (planet != planetDest && planet.Troops >= sendTroops && planet.owner == "player")
+            if (planet != planetDest && planet.owner == "player")
             {
                 planet.SendSpaceship(planetDest.transform.position);
             }
