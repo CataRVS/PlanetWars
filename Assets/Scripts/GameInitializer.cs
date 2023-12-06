@@ -4,36 +4,28 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
+using Unity.VisualScripting;
 
 public class GameInitializer : MonoBehaviour
 {
     [SerializeField] GameObject pauseButton;
-    private List<Planet> planetList = new List<Planet>();
 
     private void OnEnable()
     {
-        // pauseButton.SetActive(true);
-        Initilizer();
+        PlanetInitilizer();
+        SpaceshipInitializer();
     }
 
-    void Initilizer()
+    void PlanetInitilizer()
     {
-        planetList.Clear();
+        List<Planet> planetList = new();
         // We look for the planets on the scene and we order by position them to assign an owner to each one
         Planet[] planetsArray = FindObjectsOfType<Planet>();
         int totalPlanets = planetsArray.Length;
-        // for (int i = 0; i < totalPlanets; i++)
-        // {
-        //     planetsArray[i].gameObject.SetActive(true);
-        // }
         planetList.AddRange(planetsArray.OrderBy(planet => planet.transform.position.x).ToArray());
         int half = totalPlanets / 2;
-            for (int i = 0; i < totalPlanets; i++)
+        for (int i = 0; i < totalPlanets; i++)
         {
-            // if (!planetList[i].gameObject.activeSelf)
-            // {
-            //     planetList[i].gameObject.SetActive(true);
-            // }
             if (i < half)
             {
                 // The planets on the left will be assigned to the player
@@ -45,6 +37,15 @@ public class GameInitializer : MonoBehaviour
                 planetList[i].owner = "AI";
             }
             planetList[i].UpdateColorTextMesh();
+        }
+    }
+    void SpaceshipInitializer()
+    {
+        Spaceship[] spaceshipsArray = FindObjectsOfType<Spaceship>();
+        foreach (Spaceship spaceship in spaceshipsArray)
+        {
+            Debug.Log(spaceship.name);
+            Destroy(spaceship.gameObject);
         }
     }
 }

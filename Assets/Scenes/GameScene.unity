@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657838, g: 0.49641228, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -870,13 +870,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1159128366570228659, guid: eb276b539dde94e339e358c393ea2428, type: 3}
+      propertyPath: shipManager
+      value: 
+      objectReference: {fileID: 1227941897}
     - target: {fileID: 7179199716325760599, guid: eb276b539dde94e339e358c393ea2428, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: b0e484645b8494c748a8d31cca037d30, type: 2}
     - target: {fileID: 7184029627251835532, guid: eb276b539dde94e339e358c393ea2428, type: 3}
       propertyPath: m_Name
-      value: Planet (4)
+      value: Planet2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1588,6 +1592,10 @@ PrefabInstance:
       propertyPath: elevation
       value: 0.2
       objectReference: {fileID: 0}
+    - target: {fileID: 1159128366570228659, guid: eb276b539dde94e339e358c393ea2428, type: 3}
+      propertyPath: shipManager
+      value: 
+      objectReference: {fileID: 1227941897}
     - target: {fileID: 1609576424434033478, guid: eb276b539dde94e339e358c393ea2428, type: 3}
       propertyPath: m_ProvidesContacts
       value: 0
@@ -1598,7 +1606,11 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 27879bad0a64e4914a017d11c570c5ff, type: 2}
     - target: {fileID: 7184029627251835532, guid: eb276b539dde94e339e358c393ea2428, type: 3}
       propertyPath: m_Name
-      value: Planet (5)
+      value: Planet4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7184029627251835532, guid: eb276b539dde94e339e358c393ea2428, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2250,6 +2262,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1210885075}
   m_CullTransparentMesh: 1
+--- !u!1 &1227941897
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1227941898}
+  m_Layer: 0
+  m_Name: ShipManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1227941898
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1227941897}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1415768694}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1266504990
 GameObject:
   m_ObjectHideFlags: 0
@@ -2385,13 +2428,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1159128366570228659, guid: eb276b539dde94e339e358c393ea2428, type: 3}
+      propertyPath: shipManager
+      value: 
+      objectReference: {fileID: 1227941897}
     - target: {fileID: 7179199716325760599, guid: eb276b539dde94e339e358c393ea2428, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 08c99c172896c4d57825beeb36ca568b, type: 2}
     - target: {fileID: 7184029627251835532, guid: eb276b539dde94e339e358c393ea2428, type: 3}
       propertyPath: m_Name
-      value: Planet (2)
+      value: Planet1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2606,14 +2653,15 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1227941898}
   - {fileID: 1989456699}
   - {fileID: 456037480}
-  - {fileID: 893085651050929599}
-  - {fileID: 1840598870}
   - {fileID: 1314230670}
-  - {fileID: 1933166524}
   - {fileID: 342360685}
+  - {fileID: 893085651050929599}
   - {fileID: 987964423}
+  - {fileID: 1840598870}
+  - {fileID: 1933166524}
   - {fileID: 243033450}
   - {fileID: 1822710704}
   m_Father: {fileID: 0}
@@ -3192,7 +3240,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   criticalNum: 7
-  waitingTime: 2
+  waitingTime: 2.5
   sendTroops: 5
 --- !u!1001 &1840598869
 PrefabInstance:
@@ -3254,13 +3302,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1159128366570228659, guid: eb276b539dde94e339e358c393ea2428, type: 3}
+      propertyPath: shipManager
+      value: 
+      objectReference: {fileID: 1227941897}
     - target: {fileID: 7179199716325760599, guid: eb276b539dde94e339e358c393ea2428, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 039ea787458a0421aa74554492f56af5, type: 2}
     - target: {fileID: 7184029627251835532, guid: eb276b539dde94e339e358c393ea2428, type: 3}
       propertyPath: m_Name
-      value: Planet (1)
+      value: Planet5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7184029627251835532, guid: eb276b539dde94e339e358c393ea2428, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3332,13 +3388,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1159128366570228659, guid: eb276b539dde94e339e358c393ea2428, type: 3}
+      propertyPath: shipManager
+      value: 
+      objectReference: {fileID: 1227941897}
     - target: {fileID: 7179199716325760599, guid: eb276b539dde94e339e358c393ea2428, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 9c77facaedc9942adab3bd4788d9d25a, type: 2}
     - target: {fileID: 7184029627251835532, guid: eb276b539dde94e339e358c393ea2428, type: 3}
       propertyPath: m_Name
-      value: Planet (3)
+      value: Planet6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7184029627251835532, guid: eb276b539dde94e339e358c393ea2428, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3364,7 +3428,7 @@ GameObject:
   - component: {fileID: 1933335705}
   - component: {fileID: 1933335704}
   m_Layer: 5
-  m_Name: InstructionButton
+  m_Name: InstructionsButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3964,13 +4028,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1159128366570228659, guid: eb276b539dde94e339e358c393ea2428, type: 3}
+      propertyPath: shipManager
+      value: 
+      objectReference: {fileID: 1227941897}
     - target: {fileID: 7179199716325760599, guid: eb276b539dde94e339e358c393ea2428, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 22082560fd5a34d679264ca52722f3f8, type: 2}
     - target: {fileID: 7184029627251835532, guid: eb276b539dde94e339e358c393ea2428, type: 3}
       propertyPath: m_Name
-      value: Planet
+      value: Planet3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7184029627251835532, guid: eb276b539dde94e339e358c393ea2428, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

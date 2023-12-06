@@ -39,29 +39,29 @@ public class AI : MonoBehaviour
         {
             if (planetList[i].owner == "player")
             {
-                if (planetList[i].troops < minPlayer)
+                if (planetList[i].Troops < minPlayer)
                 {
-                    minPlayer = planetList[i].troops;
+                    minPlayer = planetList[i].Troops;
                     targetPlanet = planetList[i];
                 }
             }
             else if (planetList[i].owner == "AI")
             {
-                if (planetList[i].troops < minIA)
+                if (planetList[i].Troops < minIA)
                 {
-                    minIA = planetList[i].troops;
+                    minIA = planetList[i].Troops;
                     helpPlanet = planetList[i];
                 }
-                if (planetList[i].troops >= maxIA)
+                if (planetList[i].Troops >= maxIA)
                 {
-                    maxIA = planetList[i].troops;
+                    maxIA = planetList[i].Troops;
                     planetOrig = planetList[i];
                 }
             }
         }
-        if (planetOrig.troops > 5)
+        if (planetOrig.Troops > 5)
         {
-            if (helpPlanet.troops < criticalNum && helpPlanet != planetOrig)
+            if (helpPlanet.Troops < criticalNum && helpPlanet != planetOrig)
             {
                 planetOrig.SendSpaceship(helpPlanet.transform.position);
             }

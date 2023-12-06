@@ -5,7 +5,7 @@ using UnityEngine;
 public class Spaceship : MonoBehaviour
 {
     // Set the standart speed of the spaceship
-    [SerializeField] float speed = 1.0f;
+    [SerializeField] float speed = 0.75f;
     private float coveredPath = 0.0f;
     private Vector3 initialPosition;
     public Vector3 destination;

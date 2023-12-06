@@ -8,10 +8,8 @@ public class StartGame : MonoBehaviour
 
     public void Start()
     {
-
         startMenu.SetActive(true);
         game.SetActive(false);
         Time.timeScale = 1;
-
     }
 }

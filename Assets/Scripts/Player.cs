@@ -29,7 +29,7 @@ public class Player : MonoBehaviour
             if (planetDest.owner == "AI")
             {
                 //ConquerPlanet(planetOrig, planetDest);
-                if (planetOrig.troops >= sendTroops)
+                if (planetOrig.Troops >= sendTroops)
                 {
                     planetOrig.SendSpaceship(planetDest.transform.position);
                 }
@@ -38,7 +38,7 @@ public class Player : MonoBehaviour
             {
                 if (planetOrig != planetDest)
                 {
-                    if (planetOrig.troops >= sendTroops)
+                    if (planetOrig.Troops >= sendTroops)
                     {
                         planetOrig.SendSpaceship(planetDest.transform.position);
                     }

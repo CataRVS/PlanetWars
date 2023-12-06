@@ -8,6 +8,7 @@ public class Planet : MonoBehaviour
 {
     [SerializeField] GameObject playerShipPrefab;
     [SerializeField] GameObject enemyShipPrefab;
+    [SerializeField] GameObject shipManager;
 
     [SerializeField] int initialTroops = 12;
     [SerializeField] int initialCapacity = 25;
@@ -19,9 +20,10 @@ public class Planet : MonoBehaviour
     [SerializeField] GameObject spawnerGameObject; 
     private Transform spawner; // Referencia al spawner.
 
-    public string owner = ""; // Saves the owner of the planet (player o AI).
-    public int capacity; // Saves the capacity of the planet
-    public int troops; // Saves the number of troops in the planet
+    public string owner = ""; // Saves the owner of the planet (player o AI)
+    public int Capacity { get; private set; } // Saves the capacity of the planet
+    public int Troops { get; private set; } // Saves the number of troops in the planet
+
 
 
     void OnEnable()
@@ -36,8 +38,8 @@ public class Planet : MonoBehaviour
 
     void StartPlanet()
     {
-        troops = initialTroops;
-        capacity = initialCapacity;
+        Troops = initialTroops;
+        Capacity = initialCapacity;
         UpdateTextMesh();
         StartCoroutine(RegenerateTroops());
     }
@@ -62,8 +64,8 @@ public class Planet : MonoBehaviour
 
     public void SendSpaceship(UnityEngine.Vector3 destination)
     {
-        troops -= 5;
-        GameObject spaceshipRaw = null;
+        Troops -= 5;
+        GameObject spaceshipRaw;
         if (owner == "player")
         {
             spaceshipRaw = Instantiate(playerShipPrefab, spawner.position, UnityEngine.Quaternion.identity);
@@ -72,12 +74,15 @@ public class Planet : MonoBehaviour
         {
             spaceshipRaw = Instantiate(enemyShipPrefab, spawner.position, UnityEngine.Quaternion.identity);
         }
+        // spaceshipRaw is a child of shipManager
+        spaceshipRaw.transform.parent = shipManager.transform;
         spaceshipRaw.transform.rotation = UnityEngine.Quaternion.Euler(CalculateRotation(destination));
         Spaceship spaceship = spaceshipRaw.GetComponent<Spaceship>();
         spaceship.destination = destination;
         UpdateTextMesh();
     }
-    
+
+
     private UnityEngine.Vector3 CalculateRotation(UnityEngine.Vector3 destination)
     {
         // This function calculates the inclination of the spaceship and it's direction depending on it's destination.
@@ -110,29 +115,29 @@ public class Planet : MonoBehaviour
         {
             if (spaceship.CompareTag("AI"))
             {
-                if (troops < sendTroops)
+                if (Troops < sendTroops)
                 {
                 owner = "AI";
-                troops = sendTroops - troops;
+                Troops = sendTroops - Troops;
                 UpdateColorTextMesh();
                 }
                 // If there aren't enough troops, we don't conquer
                 else
                 {
-                    troops -= sendTroops;
+                    Troops -= sendTroops;
                 }
             }
             else if (spaceship.CompareTag("Player"))
             {
                 // If we don't reach the capacity with the actual number of troops sent, we send them all
-                if (troops + sendTroops <= capacity)
+                if (Troops + sendTroops <= Capacity)
                 {
-                    troops += sendTroops;
+                    Troops += sendTroops;
                 }
                 // If we reach the capacity with the actual number of troops sent, we only send the ones needed to reach the capacity
                 else
                 {
-                    troops = capacity;
+                    Troops = Capacity;
                 }
             }
         }
@@ -141,28 +146,28 @@ public class Planet : MonoBehaviour
             if (spaceship.CompareTag("AI"))
             {
                 // If we don't reach the capacity with the actual number of troops sent, we send them all
-                if (troops + sendTroops <= capacity)
+                if (Troops + sendTroops <= Capacity)
                 {
-                    troops += sendTroops;
+                    Troops += sendTroops;
                 }
                 // If we reach the capacity with the actual number of troops sent, we only send the ones needed to reach the capacity
                 else
                 {
-                    troops = capacity;
+                    Troops = Capacity;
                 }
             }
             else if (spaceship.CompareTag("Player"))
             {
-                if (troops < sendTroops)
+                if (Troops < sendTroops)
                 {
                 owner = "player";
-                troops = sendTroops - troops;
+                Troops = sendTroops - Troops;
                 UpdateColorTextMesh();
                 }
                 // If there aren't enough troops, we don't conquer
                 else
                 {
-                    troops -= sendTroops;
+                    Troops -= sendTroops;
                 }
             }
         }
@@ -182,9 +187,9 @@ public class Planet : MonoBehaviour
             if (timer >= regenerationTime)
             {
                 timer = 0f;
-                if (troops < capacity)
+                if (Troops < Capacity)
                 {
-                    troops++;
+                    Troops++;
                     UpdateTextMesh();
                 }
             }
@@ -209,7 +214,7 @@ public class Planet : MonoBehaviour
     {
         if (troopText != null)
         {
-            troopText.text = $"{troops}/{capacity}";
+            troopText.text = $"{Troops}/{Capacity}";
         }
     }
 }
