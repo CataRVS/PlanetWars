@@ -8,8 +8,10 @@ public class Menu : MonoBehaviour
     [SerializeField] GameObject gameObjectPauseMenu;
     [SerializeField] GameObject game;
     [SerializeField] GameObject startMenu;
-
     [SerializeField] GameObject gameObjectPanelInstructions;
+    [SerializeField] GameObject victoryPanel;
+    [SerializeField] GameObject gameOverPanel;
+    [SerializeField] GameObject backToMenu;
 
     public void Play()
     {
@@ -41,6 +43,9 @@ public class Menu : MonoBehaviour
 
     public void Exit()
     {
+        victoryPanel.SetActive(false);
+        gameOverPanel.SetActive(false);
+        backToMenu.SetActive(false);
         game.SetActive(false);
         startMenu.SetActive(true);
         Time.timeScale = 1;

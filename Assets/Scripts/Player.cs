@@ -37,7 +37,6 @@ public class Player : MonoBehaviour
         {
             selectingPlanetsOrig = false;
         }
-
         // If yoou have already selected both type of planets we send the troops to the destination.
         if (planetsOrig.Count != 0 && !selectingPlanetsOrig && planetDest != null)
         {

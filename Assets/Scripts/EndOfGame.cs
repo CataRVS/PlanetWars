@@ -7,6 +7,7 @@ public class EndOfGame : MonoBehaviour
     private List<Planet> planetList = new();
     [SerializeField] GameObject gameObjectVictoryPanel;
     [SerializeField] GameObject gameObjectGameOverPanel;
+    [SerializeField] GameObject backToMenu;
     // Start is called before the first frame update
     void Start()
     {
@@ -59,11 +60,13 @@ public class EndOfGame : MonoBehaviour
     {
         Time.timeScale = 0;
         gameObjectVictoryPanel.SetActive(true);
+        backToMenu.SetActive(true);
     }
 
     void Defeat()
     {
         Time.timeScale = 0;
         gameObjectGameOverPanel.SetActive(true);
+        backToMenu.SetActive(true);
     }
 }

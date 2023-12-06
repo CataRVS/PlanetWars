@@ -35,10 +35,12 @@ public class AI : MonoBehaviour
         int minPlayer = 1000000;
         int maxIA = 0;
         int minIA = 1000000;
+        int numberPlayer = 0;
         for (int i = 0; i < totalPlanets; i++)
         {
             if (planetList[i].owner == "player")
             {
+                numberPlayer ++;
                 if (planetList[i].Troops < minPlayer)
                 {
                     minPlayer = planetList[i].Troops;
@@ -61,7 +63,7 @@ public class AI : MonoBehaviour
         }
         if (planetOrig.Troops > 5)
         {
-            if (helpPlanet.Troops < criticalNum && helpPlanet != planetOrig)
+            if (helpPlanet.Troops < criticalNum && helpPlanet != planetOrig && numberPlayer > 1)
             {
                 planetOrig.SendSpaceship(helpPlanet.transform.position);
             }
