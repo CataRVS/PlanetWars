@@ -15,7 +15,7 @@ public class AI : MonoBehaviour
     private Planet helpPlanet;
     private List<Planet> planetList = new List<Planet>();
 
-    void OnEnable()
+    void OnEnable() 
     {
         Planet[] planetsArray = FindObjectsOfType<Planet>();
         planetList.AddRange(planetsArray.ToArray());

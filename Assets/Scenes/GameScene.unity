@@ -379,8 +379,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 8.500017, y: 22.571243}
-  m_SizeDelta: {x: 800, y: 100}
+  m_AnchoredPosition: {x: 5.2, y: 22.571243}
+  m_SizeDelta: {x: 750, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &210477757
 MonoBehaviour:
@@ -423,7 +423,7 @@ MonoBehaviour:
 
 
     Gear
-    Up for War!
+    up for War!
 
     Your mission is to conquer planets and expand your galactic
     empire before the enemy destroys your territories.
@@ -447,7 +447,7 @@ MonoBehaviour:
     - Troops in every planet regenerate
     with time
 
-    If you attack an enemy planet and have enough troops, you can
+    if you attack an enemy planet and have enough troops, you can
     conquer it!
 
     Defend your planets from enemy attacks to maintain control!
@@ -463,12 +463,7 @@ MonoBehaviour:
     Reload and Retry:
 
     Lost a battle? No worries! Learn from your
-    mistakes, adjust your strategy, and give it another shot!
-
-
-
-
-'
+    mistakes, adjust your strategy, and give it another shot!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 67c14eae09b35c54b99e757fe7392fc4, type: 2}
   m_sharedMaterial: {fileID: 4158556136921270715, guid: 67c14eae09b35c54b99e757fe7392fc4, type: 2}
@@ -531,7 +526,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: 23.840118, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1304,7 +1299,6 @@ GameObject:
   - component: {fileID: 781100215}
   - component: {fileID: 781100218}
   - component: {fileID: 781100217}
-  - component: {fileID: 781100216}
   m_Layer: 5
   m_Name: VictoryText
   m_TagString: Untagged
@@ -1331,20 +1325,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &781100216
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 781100214}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72284a48d4ada452e9ab58bd460a4562, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scaleFactor: 1.05
-  blinkSpeed: 0.5
 --- !u!114 &781100217
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1642,7 +1622,6 @@ GameObject:
   - component: {fileID: 1002347854}
   - component: {fileID: 1002347853}
   - component: {fileID: 1002347852}
-  - component: {fileID: 1002347851}
   m_Layer: 5
   m_Name: GameOverText
   m_TagString: Untagged
@@ -1669,20 +1648,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -20}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1002347851
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1002347849}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72284a48d4ada452e9ab58bd460a4562, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scaleFactor: 1.05
-  blinkSpeed: 0.5
 --- !u!114 &1002347852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2620,6 +2585,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1415768694}
   - component: {fileID: 1415768695}
+  - component: {fileID: 1415768696}
   m_Layer: 0
   m_Name: Game
   m_TagString: Untagged
@@ -2665,6 +2631,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseButton: {fileID: 312392075}
+--- !u!114 &1415768696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1415768693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c8a5754ad47b491382db29daf630c37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameObjectVictoryPanel: {fileID: 1016480016}
+  gameObjectGameOverPanel: {fileID: 556749678}
 --- !u!1 &1465141698
 GameObject:
   m_ObjectHideFlags: 0
@@ -3563,7 +3543,7 @@ MonoBehaviour:
   gameObjectPauseMenu: {fileID: 317803248}
   game: {fileID: 1415768693}
   startMenu: {fileID: 781343645}
-  gameObjectPanelInstructions: {fileID: 0}
+  gameObjectPanelInstructions: {fileID: 1790040340}
 --- !u!114 &1989456696
 MonoBehaviour:
   m_ObjectHideFlags: 0

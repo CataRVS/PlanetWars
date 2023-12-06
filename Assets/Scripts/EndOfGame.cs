@@ -7,12 +7,11 @@ public class EndOfGame : MonoBehaviour
     private List<Planet> planetList = new List<Planet>();
     [SerializeField] GameObject gameObjectVictoryPanel;
     [SerializeField] GameObject gameObjectGameOverPanel;
-    [SerializeField] GameObject victory;
-    [SerializeField] GameObject gameOver;
     // Start is called before the first frame update
     void Start()
     {
         Planet[] planetsArray = FindObjectsOfType<Planet>();
+        planetList.AddRange(planetsArray);
     }
 
     // Update is called once per frame
@@ -60,7 +59,6 @@ public class EndOfGame : MonoBehaviour
     {
         Time.timeScale = 0;
         Debug.Log("Victory!");
-        victory.SetActive(true);
         gameObjectVictoryPanel.SetActive(true);
     }
 
@@ -68,7 +66,6 @@ public class EndOfGame : MonoBehaviour
     {
         Time.timeScale = 0;
         Debug.Log("Game Over!");
-        gameOver.SetActive(true);
         gameObjectGameOverPanel.SetActive(true);
     }
 }

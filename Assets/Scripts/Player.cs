@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     [SerializeField] int sendTroops = 5; // Amout of troops sent by default
     private Planet planetOrig; // Planet from which the troops are sent
     private Planet planetDest; // Planet to which the troops are sent
+    private List<Planet> selectedPlanets = new List<Planet>();
 
     void Update()
     {
@@ -14,6 +15,12 @@ public class Player : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             DetectClickedPlanet();
+        }
+
+        // If the mouse button is held down, and we have selected planets, continue the selection.
+        if (Input.GetMouseButton(0) && selectedPlanets.Count > 0)
+        {
+            ContinueSelection();
         }
 
         // If have already selected both planets, we conquer or defend depending on the destination planet.
@@ -41,6 +48,17 @@ public class Player : MonoBehaviour
             CleanSection();
         }
     }
+    void ContinueSelection()
+{
+    // Additional logic for continuous selection while the mouse button is held down.
+    // You can update the selection appearance or provide feedback.
+    // For example, you can change the color of the selected planets.
+    foreach (Planet planet in selectedPlanets)
+    {
+        // Update the appearance of the selected planets (change color, outline, etc.).
+        // Example: planet.SetSelectedColor();
+    }
+}
 
     public void DetectClickedPlanet()
     {
