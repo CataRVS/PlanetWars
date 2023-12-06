@@ -19,7 +19,6 @@ public class Planet : MonoBehaviour
     [SerializeField] Light spotLight; // The light shown when the planet is selected
     [SerializeField] GameObject spawnerGameObject; 
     private Transform spawner; // Referencia al spawner.
-
     public string owner = ""; // Saves the owner of the planet (player o AI)
     public int Capacity { get; private set; } // Saves the capacity of the planet
     public int Troops { get; private set; } // Saves the number of troops in the planet
@@ -117,9 +116,9 @@ public class Planet : MonoBehaviour
             {
                 if (Troops < sendTroops)
                 {
-                owner = "AI";
-                Troops = sendTroops - Troops;
-                UpdateColorTextMesh();
+                    owner = "AI";
+                    Troops = sendTroops - Troops;
+                    UpdateColorTextMesh();
                 }
                 // If there aren't enough troops, we don't conquer
                 else
@@ -160,9 +159,9 @@ public class Planet : MonoBehaviour
             {
                 if (Troops < sendTroops)
                 {
-                owner = "player";
-                Troops = sendTroops - Troops;
-                UpdateColorTextMesh();
+                    owner = "player";
+                    Troops = sendTroops - Troops;
+                    UpdateColorTextMesh();
                 }
                 // If there aren't enough troops, we don't conquer
                 else

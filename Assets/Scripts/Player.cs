@@ -5,7 +5,8 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] int sendTroops = 5; // Amout of troops sent by default
-    //private Planet planetOrig; // Planet from which the troops are sent
+    [SerializeField] Vector3 initialScale = new(4f, 4f, 4f);
+    private float scaleFactor = 1.1f;
     private Planet planetDest; // Planet to which the troops are sent
     private bool selectingPlanetsOrig; // Is true if the mouse is down while selecting planets
     private List<Planet> planetsOrig = new();
@@ -56,9 +57,10 @@ public class Player : MonoBehaviour
             Planet clickedPlanet = hit.collider.GetComponent<Planet>();
             if (clickedPlanet != null)
             {
-                if (clickedPlanet.owner == "player")
+                if (clickedPlanet.owner == "player" && !planetsOrig.Contains(clickedPlanet))
                 {
                     planetsOrig.Add(clickedPlanet);
+                    clickedPlanet.transform.localScale = initialScale * scaleFactor;
                 }
             }
         }
@@ -96,7 +98,7 @@ public class Player : MonoBehaviour
     {
         foreach (Planet planet in planetsOrig)
         {
-            if (planet != planetDest && planet.Troops >= sendTroops)
+            if (planet != planetDest && planet.Troops >= sendTroops && planet.owner == "player")
             {
                 planet.SendSpaceship(planetDest.transform.position);
             }
@@ -105,6 +107,10 @@ public class Player : MonoBehaviour
 
     void CleanSection()
     {
+        foreach (Planet planet in planetsOrig)
+        {
+            planet.transform.localScale = initialScale;
+        }
         // We clean the selection of planets selected
         planetsOrig.Clear();
         planetDest = null;
