@@ -5,62 +5,67 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] int sendTroops = 5; // Amout of troops sent by default
-    private Planet planetOrig; // Planet from which the troops are sent
+    //private Planet planetOrig; // Planet from which the troops are sent
     private Planet planetDest; // Planet to which the troops are sent
-    private List<Planet> selectedPlanets = new List<Planet>();
+    private bool selectingPlanetsOrig; // Is true if the mouse is down while selecting planets
+    private List<Planet> planetsOrig = new();
 
     void Update()
     {
-        // We detect the mouse click
-        if (Input.GetMouseButtonDown(0))
+        // You are pressing the mouse button
+        if (Input.GetMouseButton(0))
         {
-            DetectClickedPlanet();
+            // You are selecting the first origin planet
+            if (planetsOrig.Count == 0)
+            {
+                selectingPlanetsOrig = true;
+                SelectPlanetsOrig();
+            }
+            // You are selecting more than one origin planet
+            else if (selectingPlanetsOrig)
+            {
+                SelectPlanetsOrig();
+            }
+            // You are selecting your destination planet
+            else
+            {
+                SelectPlanetDest();
+            }
+        }
+        // You are not pressing the mouse button
+        else
+        {
+            selectingPlanetsOrig = false;
         }
 
-        // If the mouse button is held down, and we have selected planets, continue the selection.
-        if (Input.GetMouseButton(0) && selectedPlanets.Count > 0)
+        // If yoou have already selected both type of planets we send the troops to the destination.
+        if (planetsOrig.Count != 0 && !selectingPlanetsOrig && planetDest != null)
         {
-            ContinueSelection();
-        }
-
-        // If have already selected both planets, we conquer or defend depending on the destination planet.
-        if (planetOrig != null && planetDest != null)
-        {
-            if (planetDest.owner == "AI")
-            {
-                //ConquerPlanet(planetOrig, planetDest);
-                if (planetOrig.Troops >= sendTroops)
-                {
-                    planetOrig.SendSpaceship(planetDest.transform.position);
-                }
-            }
-            else if (planetDest.owner == "player")
-            {
-                if (planetOrig != planetDest)
-                {
-                    if (planetOrig.Troops >= sendTroops)
-                    {
-                        planetOrig.SendSpaceship(planetDest.transform.position);
-                    }
-                    //ReinforceDefensePlanet(planetOrig, planetDest);
-                }
-            }
+            SendSpaceshipsToDest();
             CleanSection();
         }
     }
-    void ContinueSelection()
-{
-    // Additional logic for continuous selection while the mouse button is held down.
-    // You can update the selection appearance or provide feedback.
-    // For example, you can change the color of the selected planets.
-    foreach (Planet planet in selectedPlanets)
+    void SelectPlanetsOrig()
     {
-        // Update the appearance of the selected planets (change color, outline, etc.).
-        // Example: planet.SetSelectedColor();
-    }
-}
+        // Raycast to the mouse position
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-    public void DetectClickedPlanet()
+        if (Physics.Raycast(ray, out RaycastHit hit))
+        {
+            // We get the planet clicked if it exists
+            Planet clickedPlanet = hit.collider.GetComponent<Planet>();
+            if (clickedPlanet != null)
+            {
+                if (clickedPlanet.owner == "player")
+                {
+                    planetsOrig.Add(clickedPlanet);
+                }
+            }
+        }
+        
+    }
+
+    public void SelectPlanetDest()
     {
         // Raycast to the mouse position
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -72,16 +77,7 @@ public class Player : MonoBehaviour
 
             if (clickedPlanet != null)
             {
-                // If it's the first click, it's the origin so it must be a player's planet.
-                if (planetOrig == null && clickedPlanet.owner != "AI")
-                {
-                    planetOrig = clickedPlanet;
-                }
-                // If it's the second click, it's the destination
-                else if (planetDest == null && planetOrig != null)
-                {
-                    planetDest = clickedPlanet;
-                }
+                planetDest = clickedPlanet;
             }
             // If the player doesn't hit the planet, we clean the selection
             else
@@ -96,10 +92,21 @@ public class Player : MonoBehaviour
         }
     }
 
+    void SendSpaceshipsToDest()
+    {
+        foreach (Planet planet in planetsOrig)
+        {
+            if (planet != planetDest && planet.Troops >= sendTroops)
+            {
+                planet.SendSpaceship(planetDest.transform.position);
+            }
+        }
+    }
+
     void CleanSection()
     {
         // We clean the selection of planets selected
-        planetOrig = null;
+        planetsOrig.Clear();
         planetDest = null;
     }
 }
