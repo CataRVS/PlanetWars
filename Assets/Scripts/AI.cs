@@ -8,12 +8,11 @@ using static UnityEditor.Experimental.GraphView.Port;
 public class AI : MonoBehaviour
 {
     [SerializeField] int criticalNum = 7;
-    public float waitingTime = 2.5f; // Waiting time between AI's actions
-    public int sendTroops = 5; // Quantity of troops transferred with a click.
+    [SerializeField] float waitingTime = 2.5f; // Waiting time between AI's actions
     private Planet planetOrig; // Planet sending the troops
     private Planet targetPlanet;
     private Planet helpPlanet;
-    private List<Planet> planetList = new List<Planet>();
+    private List<Planet> planetList = new();
 
     private void OnEnable() 
     {
@@ -61,16 +60,13 @@ public class AI : MonoBehaviour
                 }
             }
         }
-        if (planetOrig.Troops > 5)
+        if (helpPlanet.Troops < criticalNum && helpPlanet != planetOrig && numberPlayer > 1)
         {
-            if (helpPlanet.Troops < criticalNum && helpPlanet != planetOrig && numberPlayer > 1)
-            {
-                planetOrig.SendSpaceship(helpPlanet.transform.position);
-            }
-            else
-            {
-                planetOrig.SendSpaceship(targetPlanet.transform.position);
-            }
+            planetOrig.SendSpaceship(helpPlanet.transform.position);
+        }
+        else
+        {
+            planetOrig.SendSpaceship(targetPlanet.transform.position);
         }
     }
 
