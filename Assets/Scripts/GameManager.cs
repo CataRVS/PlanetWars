@@ -12,10 +12,10 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] int initialCrowns = 0;
     [SerializeField] int reward = 10;
-    public int boosterCost = 20;
+    public int BoosterCost { get; private set; } = 20;
     public int Crowns { get; private set; }
 
-    public void Start()
+    private void Start()
     {
         Crowns = initialCrowns;
         startMenu.SetActive(true);
@@ -31,10 +31,11 @@ public class GameManager : MonoBehaviour
 
     public void RemoveCrowns()
     {
-        Crowns -= boosterCost;
+        Crowns -= BoosterCost;
         UpdateCrownCounter();
     }
-    void UpdateCrownCounter()
+
+    private void UpdateCrownCounter()
     {
         crownTextStart.text = Crowns.ToString();
         crownTextGame.text = Crowns.ToString();

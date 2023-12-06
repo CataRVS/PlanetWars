@@ -13,14 +13,14 @@ public class Spaceship : MonoBehaviour
     public Vector3 destination;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         initialPosition = transform.position;
         initialScale = transform.localScale;
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (coveredPath < 1f)
         {

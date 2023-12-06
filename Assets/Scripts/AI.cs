@@ -15,7 +15,7 @@ public class AI : MonoBehaviour
     private Planet helpPlanet;
     private List<Planet> planetList = new List<Planet>();
 
-    void OnEnable() 
+    private void OnEnable() 
     {
         Planet[] planetsArray = FindObjectsOfType<Planet>();
         planetList.AddRange(planetsArray.ToArray());
@@ -23,7 +23,7 @@ public class AI : MonoBehaviour
     }
 
     // Simulates the AI's decision
-    void MakeDecision()
+    private void MakeDecision()
     {
         int totalPlanets = planetList.Count;
         // We reset the decisions
@@ -74,7 +74,7 @@ public class AI : MonoBehaviour
         }
     }
 
-    IEnumerator AIManagement()
+    private IEnumerator AIManagement()
     {
         float timer = 0f;
         while (true)

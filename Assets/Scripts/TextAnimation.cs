@@ -11,7 +11,7 @@ public class TextBlink : MonoBehaviour
     [SerializeField] float blinkSpeed = 0.1f;
     private Vector3 originalScale;
 
-    void OnEnable()
+    private void OnEnable()
     {
         originalScale = transform.localScale;
 
@@ -19,7 +19,7 @@ public class TextBlink : MonoBehaviour
         StartCoroutine(BlinkText());
     }
 
-    IEnumerator BlinkText()
+    private IEnumerator BlinkText()
     {
         while (true)
         {

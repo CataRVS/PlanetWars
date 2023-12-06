@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
         gameManager = FindObjectOfType<GameManager>();
     }
 
-    void Update()
+    private void Update()
     {
         // You are pressing the mouse button
         if (Input.GetMouseButton(0))
@@ -56,7 +56,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    void SelectPlanetsOrig()
+    private void SelectPlanetsOrig()
     {
         // Raycast to the mouse position
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -78,7 +78,7 @@ public class Player : MonoBehaviour
         
     }
 
-    void SelectPlanetDest()
+    private void SelectPlanetDest()
     {
         // Raycast to the mouse position
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -105,7 +105,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    void SendSpaceshipsToDest()
+    private void SendSpaceshipsToDest()
     {
         foreach (Planet planet in planetsOrig)
         {
@@ -116,7 +116,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    void CleanSection()
+    private void CleanSection()
     {
         foreach (Planet planet in planetsOrig)
         {
@@ -127,7 +127,7 @@ public class Player : MonoBehaviour
         planetDest = null;
     }
 
-    void UpgradePlanet()
+    private void UpgradePlanet()
     {
         // Raycast to the mouse position
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -137,7 +137,7 @@ public class Player : MonoBehaviour
             // We get the planet clicked if it exists
             Planet clickedPlanet = hit.collider.GetComponent<Planet>();
 
-            if (clickedPlanet != null && gameManager.Crowns >= gameManager.boosterCost)
+            if (clickedPlanet != null && gameManager.Crowns >= gameManager.BoosterCost)
             {
                 gameManager.RemoveCrowns();
                 clickedPlanet.UpgradeRegenerationTime();

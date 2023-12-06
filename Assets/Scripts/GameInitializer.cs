@@ -16,7 +16,7 @@ public class GameInitializer : MonoBehaviour
         SpaceshipInitializer();
     }
 
-    void PlanetInitilizer()
+    private void PlanetInitilizer()
     {
         List<Planet> planetList = new();
         // We look for the planets on the scene and we order by position them to assign an owner to each one
@@ -39,7 +39,7 @@ public class GameInitializer : MonoBehaviour
             planetList[i].UpdateColorTextMesh();
         }
     }
-    void SpaceshipInitializer()
+    private void SpaceshipInitializer()
     {
         Spaceship[] spaceshipsArray = FindObjectsOfType<Spaceship>();
         foreach (Spaceship spaceship in spaceshipsArray)

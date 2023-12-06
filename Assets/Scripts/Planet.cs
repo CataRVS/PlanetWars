@@ -25,7 +25,7 @@ public class Planet : MonoBehaviour
     public int Troops { get; private set; } // Saves the number of troops in the planet
 
 
-    void OnEnable()
+    private void OnEnable()
     {
         troopText.gameObject.SetActive(true);
         spotLight.gameObject.SetActive(true);
@@ -35,7 +35,7 @@ public class Planet : MonoBehaviour
         StartPlanet();
     }
 
-    void StartPlanet()
+    private void StartPlanet()
     {
         Troops = initialTroops;
         Capacity = initialCapacity;
@@ -44,7 +44,7 @@ public class Planet : MonoBehaviour
         StartCoroutine(RegenerateTroops());
     }
 
-    void OnMouseEnter()
+    private void OnMouseEnter()
     {
         // When the mouse enters the planet, it glows
         if (spotLight != null)
@@ -53,7 +53,7 @@ public class Planet : MonoBehaviour
         }
     }
 
-    void OnMouseExit()
+    private void OnMouseExit()
     {
         // When the mouse exits the planet, it stops glowing
         if (spotLight != null)
@@ -86,7 +86,7 @@ public class Planet : MonoBehaviour
     }
 
 
-    UnityEngine.Vector3 CalculateRotation(UnityEngine.Vector3 destination)
+    private UnityEngine.Vector3 CalculateRotation(UnityEngine.Vector3 destination)
     {
         // This function calculates the inclination of the spaceship and it's direction depending on it's destination.
         UnityEngine.Vector3 origin = spawner.position;
@@ -111,7 +111,7 @@ public class Planet : MonoBehaviour
         return Rotation;
     }
     
-    void OnTriggerEnter(Collider collision) // When a spaceship arrives to the planet
+    private void OnTriggerEnter(Collider collision) // When a spaceship arrives to the planet
     {
         GameObject spaceship = collision.gameObject;
         if (owner == "player")
@@ -178,7 +178,7 @@ public class Planet : MonoBehaviour
         UpdateTextMesh();
     }
 
-    IEnumerator RegenerateTroops()
+    private IEnumerator RegenerateTroops()
     {
         float timer = 0f;
         while (true)
@@ -213,7 +213,7 @@ public class Planet : MonoBehaviour
         }
     }
 
-    void UpdateTextMesh()
+    private void UpdateTextMesh()
     {
         if (troopText != null)
         {

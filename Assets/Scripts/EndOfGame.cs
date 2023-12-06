@@ -11,7 +11,7 @@ public class EndOfGame : MonoBehaviour
     private GameManager gameManager;
     private bool gameFinished;
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         Planet[] planetsArray = FindObjectsOfType<Planet>();
         planetList.AddRange(planetsArray);
@@ -24,7 +24,7 @@ public class EndOfGame : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (CheckEndOfGame() && !gameFinished)
         {
@@ -39,7 +39,8 @@ public class EndOfGame : MonoBehaviour
             } 
         }
     }
-    bool CheckEndOfGame()
+
+    private bool CheckEndOfGame()
     {
         int totalPlanets = planetList.Count;
         int playerPlanets = 0;
@@ -65,7 +66,7 @@ public class EndOfGame : MonoBehaviour
         }
     }
 
-    void Victory()
+    private void Victory()
     {
         Time.timeScale = 0;
         gameObjectVictoryPanel.SetActive(true);
@@ -73,7 +74,7 @@ public class EndOfGame : MonoBehaviour
         gameManager.AddCrowns();
     }
 
-    void Defeat()
+    private void Defeat()
     {
         Time.timeScale = 0;
         gameObjectGameOverPanel.SetActive(true);
