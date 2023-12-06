@@ -7,6 +7,7 @@ public class Spaceship : MonoBehaviour
     // Set the standart speed of the spaceship
     [SerializeField] float speed = 0.75f;
     private float coveredPath = 0.0f;
+    private float aumentedPercentage = 0.75f;
     private Vector3 initialScale;
     private Vector3 initialPosition;
     public Vector3 destination;
@@ -27,7 +28,7 @@ public class Spaceship : MonoBehaviour
 
             // Calcula la posición intermedia usando una función cuadrática (parabólica).
             Vector3 newPosition = Vector3.Lerp(initialPosition, destination, coveredPath);
-            float scaleFactor = (Mathf.Sin(coveredPath * (Mathf.PI)) * 0.5f) + 1.0f;
+            float scaleFactor = (Mathf.Sin(coveredPath * (Mathf.PI)) * aumentedPercentage) + 1.0f;
 
             // Aplica la nueva posición a la nave.
             transform.position = newPosition;
