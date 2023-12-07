@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: DefaultCompany
-  productName: La reconquista
+  productName: Planet Wars
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -751,7 +751,7 @@ PlayerSettings:
   cloudProjectId: c62622c3-126c-4b0d-bf7b-1257e253ea56
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: La reconquista
+  projectName: Planet Wars
   organizationId: cata_rvs
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
