@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Numerics;
 using TMPro;
 using UnityEngine;
 
@@ -21,7 +19,7 @@ public class Planet : MonoBehaviour
     [SerializeField] GameObject spawnerGameObject;
 
     private Transform spawner; // Referencia al spawner.
-    public string owner = ""; // Saves the owner of the planet (player o AI)
+    public string Owner { get; set; } = ""; // Saves the owner of the planet (player o AI)
     public int Capacity { get; private set; } // Saves the capacity of the planet
     public int Troops { get; private set; } // Saves the number of troops in the planet
 
@@ -62,13 +60,13 @@ public class Planet : MonoBehaviour
         }
     }
 
-    public void SendSpaceship(UnityEngine.Vector3 destination)
+    public void SendSpaceship(Vector3 destination)
     {
         if (Troops > sendTroops)
         {
             Troops -= 5;
             GameObject spaceshipRaw;
-            if (owner == "player")
+            if (Owner == "player")
             {
                 spaceshipRaw = Instantiate(playerShipPrefab, spawner.position, UnityEngine.Quaternion.identity);
             }
@@ -85,10 +83,10 @@ public class Planet : MonoBehaviour
         }
     }
 
-    private UnityEngine.Vector3 CalculateRotation(UnityEngine.Vector3 destination)
+    private Vector3 CalculateRotation(Vector3 destination)
     {
         // This function calculates the inclination of the spaceship and it's direction depending on it's destination.
-        UnityEngine.Vector3 origin = spawner.position;
+        Vector3 origin = spawner.position;
         float xRotation;
         float yRotation;
         float zRotation;
@@ -106,20 +104,20 @@ public class Planet : MonoBehaviour
             yRotation = -90.0f;
             zRotation = 25.0f;
         }
-        UnityEngine.Vector3 Rotation = new(xRotation, yRotation, zRotation);
+        Vector3 Rotation = new(xRotation, yRotation, zRotation);
         return Rotation;
     }
-    //
+    
     private void OnTriggerEnter(Collider collision) // When a spaceship arrives to the planet
     {
         GameObject spaceship = collision.gameObject;
-        if (owner == "player")
+        if (Owner == "player")
         {
             if (spaceship.CompareTag("AI"))
             {
                 if (Troops < sendTroops)
                 {
-                    owner = "AI";
+                    Owner = "AI";
                     Troops = sendTroops - Troops;
                     UpdateColorTextMesh();
                 }
@@ -162,7 +160,7 @@ public class Planet : MonoBehaviour
             {
                 if (Troops < sendTroops)
                 {
-                    owner = "player";
+                    Owner = "player";
                     Troops = sendTroops - Troops;
                     UpdateColorTextMesh();
                 }
@@ -202,7 +200,7 @@ public class Planet : MonoBehaviour
     public void UpdateColorTextMesh()
     {
         // The planet is blue if the owner is the player, otherwise it's red.
-        if (owner == "player")
+        if (Owner == "player")
         {
             troopText.color = Color.blue;
         }

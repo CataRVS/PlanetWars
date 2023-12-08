@@ -18,15 +18,17 @@ public class TextBlink : MonoBehaviour
 
     private IEnumerator BlinkText()
     {
+        WaitForSeconds wait = new WaitForSeconds(blinkSpeed);
+
         while (true)
         {
             // Increase font size
             transform.localScale = originalScale * scaleFactor;
-            yield return new WaitForSeconds(blinkSpeed);
+            yield return wait;
 
             // Decrease font size
             transform.localScale = originalScale;
-            yield return new WaitForSeconds(blinkSpeed);
+            yield return wait;
         }
     }
 }

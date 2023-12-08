@@ -36,7 +36,7 @@ public class AI : MonoBehaviour
         int numberPlayer = 0;
         for (int i = 0; i < totalPlanets; i++)
         {
-            if (planetList[i].owner == "player")
+            if (planetList[i].Owner == "player")
             {
                 numberPlayer ++;
                 if (planetList[i].Troops < minPlayer)
@@ -45,7 +45,7 @@ public class AI : MonoBehaviour
                     targetPlanet = planetList[i];
                 }
             }
-            else if (planetList[i].owner == "AI")
+            else if (planetList[i].Owner == "AI")
             {
                 if (planetList[i].Troops < minIA)
                 {

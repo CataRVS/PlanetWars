@@ -8,8 +8,6 @@ using Unity.VisualScripting;
 
 public class GameInitializer : MonoBehaviour
 {
-    [SerializeField] GameObject pauseButton;
-
     private void OnEnable()
     {
         PlanetInitilizer();
@@ -29,12 +27,12 @@ public class GameInitializer : MonoBehaviour
             if (i < half)
             {
                 // The planets on the left will be assigned to the player
-                planetList[i].owner = "player";
+                planetList[i].Owner = "player";
             }
             else
             {
                 // The planets on the left will be assigned to the AI
-                planetList[i].owner = "AI";
+                planetList[i].Owner = "AI";
             }
             planetList[i].UpdateColorTextMesh();
         }

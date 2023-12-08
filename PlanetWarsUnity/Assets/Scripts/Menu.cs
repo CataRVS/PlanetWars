@@ -63,18 +63,6 @@ public class Menu : MonoBehaviour
 
     }
 
-    public void Instructions()
-    {
-        Time.timeScale = 0;
-        gameObjectPanelInstructions.SetActive(true);
-    }
-
-    public void Back()
-    {
-        Time.timeScale = 1;
-        gameObjectPanelInstructions.SetActive(false);
-    }
-
     public void InstrucionsPanel()
     {
         if (gameObjectPanelInstructions.activeSelf)

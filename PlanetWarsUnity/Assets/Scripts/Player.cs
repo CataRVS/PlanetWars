@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        gameManager = FindObjectOfType<GameManager>();
+        gameManager = GameManager.GetInstance();
     }
 
     private void Update()
@@ -59,44 +59,24 @@ public class Player : MonoBehaviour
 
     private void SelectPlanetsOrig()
     {
-        // Raycast to the mouse position
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        if (Physics.Raycast(ray, out RaycastHit hit))
+        Planet clickedPlanet = DetectClickedPlanet();
+        if (clickedPlanet != null)
         {
-            // We get the planet clicked if it exists
-            Planet clickedPlanet = hit.collider.GetComponent<Planet>();
-            if (clickedPlanet != null)
+            // If the player is the owner of the planet and you havent selected it already we add it to the list
+            if (clickedPlanet.Owner == "player" && !planetsOrig.Contains(clickedPlanet))
             {
-                // If the player is the owner of the planet and you havent selected it already we add it to the list
-                if (clickedPlanet.owner == "player" && !planetsOrig.Contains(clickedPlanet))
-                {
-                    planetsOrig.Add(clickedPlanet);
-                    clickedPlanet.transform.localScale = clickedPlanet.transform.localScale * scaleFactor;
-                }
+                planetsOrig.Add(clickedPlanet);
+                clickedPlanet.transform.localScale = clickedPlanet.transform.localScale * scaleFactor;
             }
         }
     }
 
     private void SelectPlanetDest()
     {
-        // Raycast to the mouse position
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        if (Physics.Raycast(ray, out RaycastHit hit))
+        Planet clickedPlanet = DetectClickedPlanet();
+        if (clickedPlanet != null)
         {
-            // We get the planet clicked if it exists
-            Planet clickedPlanet = hit.collider.GetComponent<Planet>();
-
-            if (clickedPlanet != null)
-            {
-                planetDest = clickedPlanet;
-            }
-            // If the player doesn't hit the planet, we clean the selection
-            else
-            {
-                CleanSection();
-            }
+            planetDest = clickedPlanet;
         }
         // If the player doesn't hit the planet, we clean the selection
         else
@@ -109,7 +89,7 @@ public class Player : MonoBehaviour
     {
         foreach (Planet planet in planetsOrig)
         {
-            if (planet != planetDest && planet.owner == "player")
+            if (planet != planetDest && planet.Owner == "player")
             {
                 planet.SendSpaceship(planetDest.transform.position);
             }
@@ -129,19 +109,25 @@ public class Player : MonoBehaviour
 
     private void UpgradePlanet()
     {
-        // Raycast to the mouse position
+        Planet clickedPlanet = DetectClickedPlanet();
+
+        if (clickedPlanet != null && gameManager.Crowns >= gameManager.BoosterCost)
+        {
+            gameManager.RemoveCrowns();
+            clickedPlanet.UpgradeRegenerationTime();
+        }
+    }
+
+    private Planet DetectClickedPlanet()
+    {
+        Planet clickedPlanet = null;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
             // We get the planet clicked if it exists
-            Planet clickedPlanet = hit.collider.GetComponent<Planet>();
-
-            if (clickedPlanet != null && gameManager.Crowns >= gameManager.BoosterCost)
-            {
-                gameManager.RemoveCrowns();
-                clickedPlanet.UpgradeRegenerationTime();
-            }
+            clickedPlanet = hit.collider.GetComponent<Planet>();
         }
+        return clickedPlanet;
     }
 }

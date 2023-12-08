@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class EndOfGame : MonoBehaviour
@@ -15,7 +16,7 @@ public class EndOfGame : MonoBehaviour
     {
         Planet[] planetsArray = FindObjectsOfType<Planet>();
         planetList.AddRange(planetsArray);
-        gameManager = FindObjectOfType<GameManager>();
+        gameManager = GameManager.GetInstance();
     }
 
     private void OnEnable()
@@ -28,7 +29,7 @@ public class EndOfGame : MonoBehaviour
         if (CheckEndOfGame() && !gameFinished)
         {
             gameFinished = true;
-            if (planetList[0].owner == "player")
+            if (planetList[0].Owner == "player")
             {
                 Victory();
             }
@@ -41,28 +42,10 @@ public class EndOfGame : MonoBehaviour
 
     private bool CheckEndOfGame()
     {
-        int totalPlanets = planetList.Count;
-        int playerPlanets = 0;
-        int AIPlanets = 0;
-        for (int i = 0; i < totalPlanets; i++)
-        {
-            if (planetList[i].owner == "player")
-            {
-                playerPlanets++;
-            }
-            else if (planetList[i].owner == "AI")
-            {
-                AIPlanets++;
-            }
-        }
-        if (playerPlanets == 0 || AIPlanets == 0)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        int playerPlanets = planetList.Count(planet => planet.Owner == "player");
+        int AIPlanets = planetList.Count(planet => planet.Owner == "AI");
+
+        return playerPlanets == 0 || AIPlanets == 0;
     }
 
     private void Victory()
