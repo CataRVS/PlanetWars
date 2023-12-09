@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class TextBlink : MonoBehaviour
+public class TextAnimation : MonoBehaviour
 {
     [SerializeField] float scaleFactor = 1.2f;
     [SerializeField] float blinkSpeed = 0.1f;

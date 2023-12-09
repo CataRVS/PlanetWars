@@ -1870,7 +1870,6 @@ GameObject:
   - component: {fileID: 1002347850}
   - component: {fileID: 1002347854}
   - component: {fileID: 1002347853}
-  - component: {fileID: 1002347852}
   m_Layer: 5
   m_Name: GameOverText
   m_TagString: Untagged
@@ -1897,18 +1896,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -20}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1002347852
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1002347849}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c031dd0edde1e43af86a752bd5f8f4c0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1002347853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2392,7 +2379,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1108428323}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c031dd0edde1e43af86a752bd5f8f4c0, type: 3}
   m_Name: 
