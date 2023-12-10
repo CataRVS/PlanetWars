@@ -18,7 +18,7 @@ public class Planet : MonoBehaviour
     [SerializeField] Light spotLight; // The light shown when the planet is selected
     [SerializeField] GameObject spawnerGameObject;
 
-    private Transform spawner; // Referencia al spawner.
+    private Transform spawner;
     public string Owner { get; set; } = ""; // Saves the owner of the planet (player or AI)
     public int Capacity { get; private set; } // Saves the capacity of the planet
     public int Troops { get; private set; } // Saves the number of troops in the planet
