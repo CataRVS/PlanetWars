@@ -19,7 +19,7 @@ public class Planet : MonoBehaviour
     [SerializeField] GameObject spawnerGameObject;
 
     private Transform spawner; // Referencia al spawner.
-    public string Owner { get; set; } = ""; // Saves the owner of the planet (player o AI)
+    public string Owner { get; set; } = ""; // Saves the owner of the planet (player or AI)
     public int Capacity { get; private set; } // Saves the capacity of the planet
     public int Troops { get; private set; } // Saves the number of troops in the planet
 

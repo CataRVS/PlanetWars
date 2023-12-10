@@ -23,11 +23,11 @@ public class Spaceship : MonoBehaviour
         {
             coveredPath += Time.deltaTime * speed;
 
-            // Calcula la posición intermedia usando una función cuadrática (parabólica).
+            // Calculates the new possition of the spaceship
             Vector3 newPosition = Vector3.Lerp(initialPosition, destination, coveredPath);
+            // Calculates the size of the spaceship for it's animationy
             float scaleFactor = (Mathf.Sin(coveredPath * (Mathf.PI)) * aumentedPercentage) + 1.0f;
 
-            // Aplica la nueva posición a la nave.
             transform.position = newPosition;
             transform.localScale = initialScale * scaleFactor;
         }
