@@ -6,7 +6,7 @@
 
 
 
-## Repository content
+## Repository content (link: https://github.com/CataRVS/PlanetWars.git)
 ### 1. *PlanetWarsUnity* folder
 Folder containing the unity project. If you want to edit the proyect, open this folder in Unity Hub.
 
